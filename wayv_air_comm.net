@@ -1,0 +1,8 @@
+% Example communication configuration file for Wayv Air
+% The file may contain any or all of the communication configuration parameters
+id_485 1
+baud_485 115200  % Set to 921600 for point cloud mode if using high-speed RS485 Wayv Air; otherwise set to 115200
+server_ip 192.168.1.65
+con_wifi_name vave-2.4G
+con_wifi_pwd vave666666
+wifi_mode 1  % 1=ROUTER or 2=DIRECT

@@ -163,7 +163,10 @@ if __name__ == "__main__":
     delay_init = 50 # number of target callbacks to pass before sending or reading configurations
     delay = delay_init
     v_level = 0
-    serial_port = "/dev/ttyUSB0"
+    if 'linux' in sys.platform:
+        serial_port = "/dev/ttyUSB0"
+    else:
+        serial_port = "COM5"
     serial_baud = 115200
     comm_mode = MODE_485
     wifi_ip = '192.168.4.65'

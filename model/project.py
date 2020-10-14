@@ -132,7 +132,7 @@ class TestConfig(object):
         self.turntable_com = ""
 
 
-SOFTWARE_VERSION = "1.200.1.10"
+SOFTWARE_VERSION = "1.200.1.11"
 
 
 class Project(object):

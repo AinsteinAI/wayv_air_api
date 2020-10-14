@@ -1,7 +1,6 @@
 '''
 wayv_air_air_example.py
 Copyright 2020, Ainstein Inc. All Rights Reserved
-Version: 2.0
 
  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -16,14 +15,14 @@ Version: 2.0
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  '''
 
-from PyQt5.QtCore import *
-from PyQt5.QtWidgets import *
-from wayv_air_device_api import Wayv_Air_API
 import sys
 import signal
 import time
 import copy
 import os
+from PyQt5.QtCore import *
+from PyQt5.QtWidgets import *
+from wayv_air_device_api import Wayv_Air_API
 
 def radar_con_callback(id):
     global new_firmware, query_config, comm_config, param_config, firmware_up, enbl_pcl

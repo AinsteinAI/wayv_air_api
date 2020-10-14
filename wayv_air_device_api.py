@@ -159,7 +159,7 @@ class Wayv_Air_API():
                     elif ver.soft_name == "SBL":
                         self.radars[id].sbl_version = "%d.%d.%d" % (ver.ver_main, ver.ver_child, ver.ver_sec)
                 self.radars[id].ready = True
-                if self.c_callback_fcn is not "none":
+                if self.c_callback_fcn != "none":
                     self.c_callback_fcn(id)
 
         elif isinstance(msg, MsgTarget) or isinstance(msg, MsgDetailTarget):
@@ -177,7 +177,7 @@ class Wayv_Air_API():
                     print(id)
                     print(msg.tags[0].targets)
                     print(str(msg.tags[0]))
-                if self.t_callback_fcn is not "none":
+                if self.t_callback_fcn != "none":
                     self.t_callback_fcn(id)
 
         elif isinstance(msg, MsgConfig):
@@ -217,10 +217,10 @@ class Wayv_Air_API():
                             self.radars[id].targets[-1].vel_z = targ.velZ
                             call_t_cb = True  # wait until all messages are parsed to to call callback
 
-            if self.pcl_callback_fcn is not "none" and call_pcl_cb:
+            if self.pcl_callback_fcn != "none" and call_pcl_cb:
                 self.pcl_callback_fcn(id)
 
-            if self.t_callback_fcn is not "none" and call_t_cb:
+            if self.t_callback_fcn != "none" and call_t_cb:
                 self.t_callback_fcn(id)
 
 

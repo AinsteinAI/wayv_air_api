@@ -14,27 +14,27 @@
     <message>
         <location filename="../base_set.py" line="51"/>
         <source>错误</source>
-        <translation>error</translation>
+        <translation>Error</translation>
     </message>
     <message>
         <location filename="../base_set.py" line="33"/>
         <source>历史轨迹点数必须为整数!</source>
-        <translation>history track point number must be integer!</translation>
+        <translation>History Track Point Number Must Be An Integer!</translation>
     </message>
     <message>
         <location filename="../base_set.py" line="38"/>
         <source>身份超时时间必须为数字!</source>
-        <translation>identify overtime threshold must be number!</translation>
+        <translation>Identify Overtime Threshold Must Be A Number!</translation>
     </message>
     <message>
         <location filename="../base_set.py" line="43"/>
         <source>通讯超时时间必须为数字!</source>
-        <translation>communicate time threshold must be number!</translation>
+        <translation>Communication Time Threshold Must Be A Number!</translation>
     </message>
     <message>
         <location filename="../base_set.py" line="51"/>
         <source>数据库端口必须为整数!</source>
-        <translation>database port must be integer!</translation>
+        <translation>Database Port Must Be An Integer!</translation>
     </message>
 </context>
 <context>
@@ -42,22 +42,22 @@
     <message>
         <location filename="../connect_set.py" line="48"/>
         <source>错误</source>
-        <translation>error</translation>
+        <translation>Error</translation>
     </message>
     <message>
         <location filename="../connect_set.py" line="38"/>
         <source>串口波特率必须为整数!</source>
-        <translation>serial baudrate must be integer!</translation>
+        <translation>Serial Baudrate Must Be An Integer!</translation>
     </message>
     <message>
         <location filename="../connect_set.py" line="43"/>
         <source>WIFI(SERVER)端口必须为整数!</source>
-        <translation>WIFI(SERVER)port must be integer!</translation>
+        <translation>WIFI(SERVER)port Must Be An Integer!</translation>
     </message>
     <message>
         <location filename="../connect_set.py" line="48"/>
         <source>集中器(SERVER)端口必须为整数!</source>
-        <translation>concentrator(SERVER)port must be integer!</translation>
+        <translation>RS485HUB(SERVER)port Must Be An Integer!</translation>
     </message>
 </context>
 <context>
@@ -65,7 +65,7 @@
     <message>
         <location filename="../vave.py" line="125"/>
         <source>雷达列表</source>
-        <translation>Radar list</translation>
+        <translation>Radar List</translation>
     </message>
     <message>
         <location filename="../vave.py" line="126"/>
@@ -75,67 +75,67 @@
     <message>
         <location filename="../vave.py" line="145"/>
         <source>打开vave工程文件</source>
-        <translation>Open vave project file</translation>
+        <translation>Open Wayv Project File</translation>
     </message>
     <message>
         <location filename="../vave.py" line="1361"/>
         <source>错误</source>
-        <translation>error</translation>
+        <translation>Error</translation>
     </message>
     <message>
         <location filename="../vave.py" line="152"/>
         <source>工程文件格式错误!</source>
-        <translation>bad project file format!</translation>
+        <translation>Bad Project File Format!</translation>
     </message>
     <message>
         <location filename="../vave.py" line="155"/>
         <source>保存vave工程文件</source>
-        <translation>Save vave project file</translation>
+        <translation>Save WAYV Project File</translation>
     </message>
     <message>
         <location filename="../vave.py" line="187"/>
         <source>数据库连接异常</source>
-        <translation>database connect exception</translation>
+        <translation>Database Connect Exception</translation>
     </message>
     <message>
         <location filename="../vave.py" line="317"/>
         <source>雷达未连接!</source>
-        <translation>radar not connected!</translation>
+        <translation>Radar Not Connected!</translation>
     </message>
     <message>
         <location filename="../vave.py" line="245"/>
         <source>请选择一个雷达再进行查询!</source>
-        <translation>select a radar befor query!</translation>
+        <translation>Select A Radar Before Query!</translation>
     </message>
     <message>
         <location filename="../vave.py" line="276"/>
         <source>请至少选择一个雷达!</source>
-        <translation>select one radar at least!</translation>
+        <translation>Select At Least One Radar!</translation>
     </message>
     <message>
         <location filename="../vave.py" line="284"/>
         <source>选取固件文件</source>
-        <translation>select frimware</translation>
+        <translation>Select Frimware</translation>
     </message>
     <message>
         <location filename="../vave.py" line="373"/>
         <source>提示</source>
-        <translation>prompt</translation>
+        <translation>Prompt</translation>
     </message>
     <message>
         <location filename="../vave.py" line="373"/>
         <source>无法获取本机IP!</source>
-        <translation>can&apos;t retrieve local IP!</translation>
+        <translation>Can&apos;t Retrieve Local IP!</translation>
     </message>
     <message>
         <location filename="../vave.py" line="1025"/>
         <source>文件保存</source>
-        <translation>Save file</translation>
+        <translation>Save File</translation>
     </message>
     <message>
         <location filename="../vave.py" line="423"/>
         <source>雷达连接失败!</source>
-        <translation>radar connect fail!</translation>
+        <translation>Radar Connection Failed!</translation>
     </message>
     <message>
         <location filename="../vave.py" line="499"/>
@@ -145,22 +145,22 @@
     <message>
         <location filename="../vave.py" line="505"/>
         <source>Wifi服务器</source>
-        <translation>wifi server</translation>
+        <translation>WIFI Server</translation>
     </message>
     <message>
         <location filename="../vave.py" line="511"/>
         <source>集中器服务器</source>
-        <translation>Concentrator server</translation>
+        <translation>RS485HUB Server</translation>
     </message>
     <message>
         <location filename="../vave.py" line="660"/>
         <source>雷达485id已经存在!</source>
-        <translation>radar 485 id exists already!</translation>
+        <translation>Radar 485 ID Already Exists!</translation>
     </message>
     <message>
         <location filename="../vave.py" line="641"/>
         <source>雷达ip已经存在!</source>
-        <translation>radar ip exists already!</translation>
+        <translation>Radar IP Already Exists!</translation>
     </message>
     <message>
         <location filename="../ui/vave.py" line="116"/>
@@ -175,12 +175,12 @@
     <message>
         <location filename="../vave.py" line="1361"/>
         <source>场景名称已经存在!</source>
-        <translation>Scene exists already!</translation>
+        <translation>Scene Already Exists!</translation>
     </message>
     <message>
         <location filename="../vave.py" line="1297"/>
         <source>该场景雷达id已经存在!</source>
-        <translation>Radar id exists already in this scene!</translation>
+        <translation>Radar ID Already Exists In This Scene!</translation>
     </message>
     <message>
         <location filename="../vave.py" line="126"/>
@@ -195,7 +195,7 @@
     <message>
         <location filename="../vave.py" line="319"/>
         <source>选取SBL文件</source>
-        <translation>select sbl</translation>
+        <translation>Select SBL</translation>
     </message>
     <message>
         <location filename="../ui/vave.py" line="114"/>
@@ -205,27 +205,27 @@
     <message>
         <location filename="../vave.py" line="126"/>
         <source>目标数</source>
-        <translation>target count</translation>
+        <translation>Target Count</translation>
     </message>
     <message>
         <location filename="../vave.py" line="287"/>
         <source>错误的固件文件!</source>
-        <translation>Bad firm file</translation>
+        <translation>Bad Firmware File</translation>
     </message>
     <message>
         <location filename="../vave.py" line="322"/>
         <source>错误的SBL文件!</source>
-        <translation>Bad Sbl file</translation>
+        <translation>Bad SBL File</translation>
     </message>
     <message>
         <location filename="../vave.py" line="1322"/>
         <source>该场景灯控id已经存在!</source>
-        <translation>same light id exist!</translation>
+        <translation>Same Light ID exists!</translation>
     </message>
     <message>
         <location filename="../vave.py" line="837"/>
         <source>目标数量:%d 温度:%.1f℃ 电压:%.1fV 功率:%.1fW TX1温度:%d TX2温度:%d TX3温度:%d PM温度:%d </source>
-        <translation>Target num:%d Temperature:%.1f℃ Voltage:%.1fV Power:%.1fW TX1 Temperature:%d TX2 Temperature:%d TX3 Temperature:%d PM Temperature:%d </translation>
+        <translation>Target Num:%d Temperature:%.1f℃ Voltage:%.1fV Power:%.1fW TX1 Temperature:%d TX2 Temperature:%d TX3 Temperature:%d PM Temperature:%d </translation>
     </message>
 </context>
 <context>
@@ -233,32 +233,32 @@
     <message>
         <location filename="../receiver/receiver_socket_server.py" line="45"/>
         <source>一个客户端连上来了</source>
-        <translation>a client connected</translation>
+        <translation>A Client Connected</translation>
     </message>
     <message>
         <location filename="../receiver/receiver_socket_server.py" line="113"/>
         <source>一个客户端退出去了</source>
-        <translation>a client quitted</translation>
+        <translation>A Client Quit</translation>
     </message>
     <message>
         <location filename="../receiver/receiver_socket_server.py" line="145"/>
         <source>ReadyUpdate命令未收到响应</source>
-        <translation>ReadyUpdate cmd no response</translation>
+        <translation>No Response From ReadyUpdate Cmd</translation>
     </message>
     <message>
         <location filename="../receiver/receiver_socket_server.py" line="151"/>
         <source>Update命令未收到响应</source>
-        <translation>Update cmd no response</translation>
+        <translation>No Response From Update CMD</translation>
     </message>
     <message>
         <location filename="../receiver/receiver_socket_server.py" line="165"/>
         <source>XModem传输错误</source>
-        <translation>XModem transfer error</translation>
+        <translation>XModem Transfer Error</translation>
     </message>
     <message>
         <location filename="../receiver/receiver_socket_server.py" line="169"/>
         <source>未收到固件更新完成响应</source>
-        <translation>the response of firmware update finish has not received</translation>
+        <translation>The Firmware Update Completion Response Was Not Received</translation>
     </message>
 </context>
 <context>
@@ -302,57 +302,57 @@
     <message>
         <location filename="../radar_set.py" line="32"/>
         <source>选取背景图片</source>
-        <translation>Select background picture</translation>
+        <translation>Select Background Picture</translation>
     </message>
     <message>
         <location filename="../radar_set.py" line="85"/>
         <source>错误</source>
-        <translation>error</translation>
+        <translation>Error</translation>
     </message>
     <message>
         <location filename="../radar_set.py" line="39"/>
         <source>雷达标识不能为空!</source>
-        <translation>radar id can not be blank!</translation>
+        <translation>Radar ID Cannot Be Blank!</translation>
     </message>
     <message>
         <location filename="../radar_set.py" line="45"/>
         <source>雷达水平偏角必须为数字!</source>
-        <translation>radar horizontal angle must be number!</translation>
+        <translation>Radar Horizontal Angle Must Be A Number!</translation>
     </message>
     <message>
         <location filename="../radar_set.py" line="48"/>
         <source>雷达水平偏角范围为[0, 360)!</source>
-        <translation>the scale of radar horizontal angle is [0,360]!</translation>
+        <translation>Radar Horizontal Angle Must Be Between [0,360]!</translation>
     </message>
     <message>
         <location filename="../radar_set.py" line="54"/>
         <source>雷达垂直倾角必须为数字!</source>
-        <translation>vertical angle must be number!</translation>
+        <translation>Vertical Angle Must Be A Number!</translation>
     </message>
     <message>
         <location filename="../radar_set.py" line="57"/>
         <source>雷达垂直范围为[-90, 90]!</source>
-        <translation>radar vertical scale is[-90,90]!</translation>
+        <translation>Radar Vertical Scale Is [-90,90]!</translation>
     </message>
     <message>
         <location filename="../radar_set.py" line="67"/>
         <source>背景实际宽必须为数字!</source>
-        <translation>background actral width must be number!</translation>
+        <translation>Background Width Must Be A Number!</translation>
     </message>
     <message>
         <location filename="../radar_set.py" line="73"/>
         <source>背景实际高必须为数字!</source>
-        <translation>background actual height must be number!</translation>
+        <translation>Background Height Must Be A Number!</translation>
     </message>
     <message>
         <location filename="../radar_set.py" line="79"/>
         <source>雷达水平位置必须为数字!</source>
-        <translation>radar horizontal position must be number!</translation>
+        <translation>Radar Horizontal Position Must Be A Number!</translation>
     </message>
     <message>
         <location filename="../radar_set.py" line="85"/>
         <source>雷达垂直位置必须为数字!</source>
-        <translation>radar vertical position must be number!</translation>
+        <translation>Radar Vertical Position Must Be A Number!</translation>
     </message>
 </context>
 <context>
@@ -360,22 +360,22 @@
     <message>
         <location filename="../receiver/receiver_serial485.py" line="215"/>
         <source>ReadyUpdate命令未收到响应</source>
-        <translation>ReadyUpdate cmd no response</translation>
+        <translation>No Response From ReadyUpdate CMD</translation>
     </message>
     <message>
         <location filename="../receiver/receiver_serial485.py" line="222"/>
         <source>Update命令未收到响应</source>
-        <translation>Update cmd no response</translation>
+        <translation>No Response From Update CMD</translation>
     </message>
     <message>
         <location filename="../receiver/receiver_serial485.py" line="276"/>
         <source>XModem传输错误</source>
-        <translation>XModem transfer error</translation>
+        <translation>XModem Transfer Error</translation>
     </message>
     <message>
         <location filename="../receiver/receiver_serial485.py" line="280"/>
         <source>未收到固件更新完成响应</source>
-        <translation>the response of firmware update finish has not received</translation>
+        <translation>The Firmware Update Completion Response Was Not Received</translation>
     </message>
 </context>
 <context>
@@ -383,22 +383,22 @@
     <message>
         <location filename="../scene_light_set.py" line="44"/>
         <source>错误</source>
-        <translation>error</translation>
+        <translation>Error</translation>
     </message>
     <message>
         <location filename="../scene_light_set.py" line="32"/>
         <source>灯控id不能为空!</source>
-        <translation>light id is null</translation>
+        <translation>Light Id Is Null</translation>
     </message>
     <message>
         <location filename="../scene_light_set.py" line="38"/>
         <source>灯控水平位置必须为数字!</source>
-        <translation>light x pos must be number</translation>
+        <translation>Light X Pos Must Be A Number</translation>
     </message>
     <message>
         <location filename="../scene_light_set.py" line="44"/>
         <source>灯控垂直位置必须为数字!</source>
-        <translation>light y pos must be number</translation>
+        <translation>Light Y Pos Must Be A Number</translation>
     </message>
 </context>
 <context>
@@ -411,37 +411,37 @@
     <message>
         <location filename="../scene_radar_set.py" line="31"/>
         <source>雷达id不能为空!</source>
-        <translation>Radar id can&apos;t be empty!</translation>
+        <translation>Radar ID Can&apos;t Be Empty!</translation>
     </message>
     <message>
         <location filename="../scene_radar_set.py" line="37"/>
         <source>雷达水平偏角必须为数字!</source>
-        <translation>Radar horizontal angle must be number!</translation>
+        <translation>Radar Horizontal Angle Must Be A Number!</translation>
     </message>
     <message>
         <location filename="../scene_radar_set.py" line="40"/>
         <source>雷达水平偏角范围为[0, 360)!</source>
-        <translation>the scale of radar horizontal angle is [0,360]!</translation>
+        <translation>Radar Horizontal Scale Is [0,360]!</translation>
     </message>
     <message>
         <location filename="../scene_radar_set.py" line="46"/>
         <source>雷达垂直倾角必须为数字!</source>
-        <translation>Vertical angle must be number!</translation>
+        <translation>Vertical Angle Must Be A Number!</translation>
     </message>
     <message>
         <location filename="../scene_radar_set.py" line="49"/>
         <source>雷达垂直范围为[-90, 90]!</source>
-        <translation>Radar vertical scale is[-90,90]!</translation>
+        <translation>Radar Vertical Scale Is [-90,90]!</translation>
     </message>
     <message>
         <location filename="../scene_radar_set.py" line="55"/>
         <source>雷达水平位置必须为数字!</source>
-        <translation>Radar horizontal position must be number!</translation>
+        <translation>Radar Horizontal Position Must Be A Number!</translation>
     </message>
     <message>
         <location filename="../scene_radar_set.py" line="61"/>
         <source>雷达垂直位置必须为数字!</source>
-        <translation>Radar vertical position must be number!</translation>
+        <translation>Radar Vertical Position Must Be A Number!</translation>
     </message>
 </context>
 <context>
@@ -449,7 +449,7 @@
     <message>
         <location filename="../scene_set.py" line="24"/>
         <source>选取背景图片</source>
-        <translation>Select background picture</translation>
+        <translation>Select Background Image</translation>
     </message>
     <message>
         <location filename="../scene_set.py" line="45"/>
@@ -459,17 +459,17 @@
     <message>
         <location filename="../scene_set.py" line="31"/>
         <source>场景名称不能为空!</source>
-        <translation>Scene name can&apos;t be empty!</translation>
+        <translation>Scene Name Can&apos;t Be Empty!</translation>
     </message>
     <message>
         <location filename="../scene_set.py" line="39"/>
         <source>背景实际宽必须为数字!</source>
-        <translation>Background actral width must be number!</translation>
+        <translation>Background Width Must Be A Number!</translation>
     </message>
     <message>
         <location filename="../scene_set.py" line="45"/>
         <source>背景实际高必须为数字!</source>
-        <translation>Background actual height must be number!</translation>
+        <translation>Background Height Must Be A Number!</translation>
     </message>
 </context>
 <context>
@@ -477,22 +477,22 @@
     <message>
         <location filename="../sys_config.py" line="97"/>
         <source>错误</source>
-        <translation>error</translation>
+        <translation>Error</translation>
     </message>
     <message>
         <location filename="../sys_config.py" line="73"/>
         <source>485地址必须为整数!</source>
-        <translation>485 address must be integer!</translation>
+        <translation>485 Address Must Be An Integer!</translation>
     </message>
     <message>
         <location filename="../sys_config.py" line="85"/>
         <source>485波特率必须为整数!</source>
-        <translation>485 baudrate must be integer!</translation>
+        <translation>485 Baudrate Must Be An Integer!</translation>
     </message>
     <message>
         <location filename="../sys_config.py" line="97"/>
         <source>服务器端口号必须为整数!</source>
-        <translation>server port must be integer!</translation>
+        <translation>Server Port Must Be An Integer!</translation>
     </message>
 </context>
 <context>

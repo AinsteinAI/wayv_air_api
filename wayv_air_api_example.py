@@ -194,7 +194,6 @@ if __name__ == "__main__":
                 " -cfg: path to radar parameter config file (.cfg) to be loaded\n"
                 " -fw: path to firmware .bin file to be loaded\n"
                 " -pcl: enable point cloud output from the Wayv Air\n"
-                "       Serial baud rate must already be set to 921600 on the Wayv Air\n"
                 " -baud: serial baud rate; must match what the Wayv Air is already set to")
 
     if len(sys.argv) > 1:
@@ -237,7 +236,6 @@ if __name__ == "__main__":
                     print("Error: please specify a path to a .bin file")
                     sys.exit(1)
             elif sys.argv[i] == "-pcl":
-                serial_baud = 921600
                 enbl_pcl = True
             elif sys.argv[i] == "-baud":
                 serial_baud = int(sys.argv[i+1])

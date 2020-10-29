@@ -1,7 +1,6 @@
 '''
 wayv_air_air_example.py
 Copyright 2020, Ainstein Inc. All Rights Reserved
-Version: 2.0
 
  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -16,14 +15,14 @@ Version: 2.0
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  '''
 
-from PyQt5.QtCore import *
-from PyQt5.QtWidgets import *
-from wayv_air_device_api import Wayv_Air_API
 import sys
 import signal
 import time
 import copy
 import os
+from PyQt5.QtCore import *
+from PyQt5.QtWidgets import *
+from wayv_air_device_api import Wayv_Air_API
 
 def radar_con_callback(id):
     global new_firmware, query_config, comm_config, param_config, firmware_up, enbl_pcl
@@ -163,7 +162,10 @@ if __name__ == "__main__":
     delay_init = 50 # number of target callbacks to pass before sending or reading configurations
     delay = delay_init
     v_level = 0
-    serial_port = "/dev/ttyUSB0"
+    if 'linux' in sys.platform:
+        serial_port = "/dev/ttyUSB0"
+    else:
+        serial_port = "COM5"
     serial_baud = 115200
     comm_mode = MODE_485
     wifi_ip = '192.168.4.65'
@@ -192,7 +194,6 @@ if __name__ == "__main__":
                 " -cfg: path to radar parameter config file (.cfg) to be loaded\n"
                 " -fw: path to firmware .bin file to be loaded\n"
                 " -pcl: enable point cloud output from the Wayv Air\n"
-                "       Serial baud rate must already be set to 921600 on the Wayv Air\n"
                 " -baud: serial baud rate; must match what the Wayv Air is already set to")
 
     if len(sys.argv) > 1:
@@ -235,7 +236,6 @@ if __name__ == "__main__":
                     print("Error: please specify a path to a .bin file")
                     sys.exit(1)
             elif sys.argv[i] == "-pcl":
-                serial_baud = 921600
                 enbl_pcl = True
             elif sys.argv[i] == "-baud":
                 serial_baud = int(sys.argv[i+1])

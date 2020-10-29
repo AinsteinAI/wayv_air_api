@@ -18,6 +18,7 @@ Copyright 2020, Ainstein Inc. All Rights Reserved
 import xml.dom.minidom
 import codecs
 import logging
+from sys import platform
 from worker.worker_base import *
 from Language.Translator import global_translator
 
@@ -131,7 +132,7 @@ class TestConfig(object):
         self.turntable_com = ""
 
 
-SOFTWARE_VERSION = "1.200.1.10"
+SOFTWARE_VERSION = "1.200.1.11"
 
 
 class Project(object):
@@ -152,7 +153,10 @@ class Project(object):
         # jzq模式线路id列表
         self.jzq_lines = [1, 2, 3, 4]
         # 串口信息
-        self.serial_com = "/dev/ttyUSB0"
+        if 'linux' in platform:
+            self.serial_com = "/dev/ttyUSB0"
+        else:
+            self.serial_com = "COM5"
         self.serial_baud = 115200
         # wifi server信息
         self.wifi_server_port = 8877

@@ -817,7 +817,7 @@
     <message>
         <location filename="../base_set_ui.ui" line="56"/>
         <source>历史点迹数量</source>
-        <translation>History Track Amount</translation>
+        <translation>Target Tail Length</translation>
     </message>
     <message>
         <location filename="../base_set_ui.ui" line="39"/>
@@ -1031,7 +1031,7 @@
     <message>
         <location filename="../radar_set_ui.ui" line="53"/>
         <source>水平为0，天线面朝下为90</source>
-        <translation>Horizontal=0,Face to Ground=90</translation>
+        <translation>Upright=0,Face to Ground=90</translation>
     </message>
     <message>
         <location filename="../radar_set_ui.ui" line="26"/>

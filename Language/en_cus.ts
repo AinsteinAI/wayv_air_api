@@ -115,7 +115,7 @@
     <message>
         <location filename="../vave.py" line="284"/>
         <source>选取固件文件</source>
-        <translation>Select Frimware</translation>
+        <translation>Select Firmware</translation>
     </message>
     <message>
         <location filename="../vave.py" line="373"/>

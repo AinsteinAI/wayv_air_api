@@ -6,32 +6,32 @@
     <message>
         <location filename="../vave_ui.ui" line="14"/>
         <source>Vave客户端</source>
-        <translation>Vave client</translation>
+        <translation>WAYV</translation>
     </message>
     <message>
         <location filename="../vave_ui.ui" line="25"/>
         <source>雷达视图</source>
-        <translation>Radar view</translation>
+        <translation>Radar View</translation>
     </message>
     <message>
         <location filename="../vave_ui.ui" line="33"/>
         <source>基础设置</source>
-        <translation>Basic config</translation>
+        <translation>Basic Config</translation>
     </message>
     <message>
         <location filename="../vave_ui.ui" line="47"/>
         <source>系统设置</source>
-        <translation>System config</translation>
+        <translation>System Config</translation>
     </message>
     <message>
         <location filename="../vave_ui.ui" line="61"/>
         <source>固件升级</source>
-        <translation>Firmware update</translation>
+        <translation>Firmware Update</translation>
     </message>
     <message>
         <location filename="../vave_ui.ui" line="75"/>
         <source>SBL升级</source>
-        <translation>Sbl Update</translation>
+        <translation>SBL Update</translation>
     </message>
     <message>
         <location filename="../vave_ui.ui" line="89"/>
@@ -42,37 +42,37 @@
     <message>
         <location filename="../vave_ui.ui" line="151"/>
         <source>场景视图</source>
-        <translation>Scene view</translation>
+        <translation>Scene View</translation>
     </message>
     <message>
         <location filename="../vave_ui.ui" line="159"/>
         <source>场景设置</source>
-        <translation>Scene config</translation>
+        <translation>Scene Config</translation>
     </message>
     <message>
         <location filename="../vave_ui.ui" line="173"/>
         <source>雷达设置</source>
-        <translation>Radar config</translation>
+        <translation>Radar Config</translation>
     </message>
     <message>
         <location filename="../vave_ui.ui" line="201"/>
         <source>拉伸</source>
-        <translation>strech</translation>
+        <translation>Expand</translation>
     </message>
     <message>
         <location filename="../vave_ui.ui" line="218"/>
         <source> 自动</source>
-        <translation>turn auto</translation>
+        <translation>Turn Auto</translation>
     </message>
     <message>
         <location filename="../vave_ui.ui" line="228"/>
         <source>关灯</source>
-        <translation>turn off</translation>
+        <translation>Turn Off</translation>
     </message>
     <message>
         <location filename="../vave_ui.ui" line="235"/>
         <source>开灯</source>
-        <translation>turn on</translation>
+        <translation>Turn On</translation>
     </message>
     <message>
         <location filename="../vave_ui.ui" line="296"/>
@@ -108,19 +108,19 @@
         <location filename="../vave_ui.ui" line="371"/>
         <location filename="../vave_ui.ui" line="374"/>
         <source>新建</source>
-        <translation>Creat new</translation>
+        <translation>Create New</translation>
     </message>
     <message>
         <location filename="../vave_ui.ui" line="383"/>
         <location filename="../vave_ui.ui" line="386"/>
         <source>打开工程文件</source>
-        <translation>Open project file</translation>
+        <translation>Open</translation>
     </message>
     <message>
         <location filename="../vave_ui.ui" line="395"/>
         <location filename="../vave_ui.ui" line="398"/>
         <source>保存工程文件</source>
-        <translation>Save project file</translation>
+        <translation>Save</translation>
     </message>
     <message>
         <location filename="../vave_ui.ui" line="407"/>
@@ -144,13 +144,13 @@
         <location filename="../vave_ui.ui" line="443"/>
         <location filename="../vave_ui.ui" line="446"/>
         <source>生产测试</source>
-        <translation>Production test</translation>
+        <translation>Production Test</translation>
     </message>
     <message>
         <location filename="../vave_ui.ui" line="455"/>
         <location filename="../vave_ui.ui" line="458"/>
         <source>点云</source>
-        <translation>Point cloud</translation>
+        <translation>Point Cloud</translation>
     </message>
     <message>
         <location filename="../vave_ui.ui" line="467"/>
@@ -176,7 +176,7 @@
         <location filename="../vave_ui.ui" line="666"/>
         <location filename="../vave_ui.ui" line="669"/>
         <source>全选</source>
-        <translation>Select all</translation>
+        <translation>Select All</translation>
     </message>
     <message>
         <location filename="../vave_ui.ui" line="536"/>
@@ -184,7 +184,7 @@
         <location filename="../vave_ui.ui" line="678"/>
         <location filename="../vave_ui.ui" line="681"/>
         <source>全不选</source>
-        <translation>Deselect all</translation>
+        <translation>Deselect All</translation>
     </message>
     <message>
         <location filename="../vave_ui.ui" line="551"/>
@@ -196,19 +196,19 @@
         <location filename="../vave_ui.ui" line="563"/>
         <location filename="../vave_ui.ui" line="566"/>
         <source>从数据库导入</source>
-        <translation>Import from database</translation>
+        <translation>Import From Database</translation>
     </message>
     <message>
         <location filename="../vave_ui.ui" line="575"/>
         <location filename="../vave_ui.ui" line="578"/>
         <source>向数据库导出</source>
-        <translation>Export to database</translation>
+        <translation>Export To Database</translation>
     </message>
     <message>
         <location filename="../vave_ui.ui" line="587"/>
         <location filename="../vave_ui.ui" line="590"/>
         <source>连接配置</source>
-        <translation>Connection config</translation>
+        <translation>Connection Settings</translation>
     </message>
     <message>
         <location filename="../vave_ui.ui" line="599"/>
@@ -272,7 +272,7 @@
     <message>
         <location filename="../about_ui.ui" line="39"/>
         <source>版权所有：木牛领航科技有限公司</source>
-        <translation>Copyright: MUNIU TECHNOLOGY</translation>
+        <translation>Copyright: AINSTEIN</translation>
     </message>
 </context>
 <context>
@@ -807,32 +807,32 @@
     <message>
         <location filename="../base_set_ui.ui" line="14"/>
         <source>基础配置</source>
-        <translation>basic config</translation>
+        <translation>Basic Configuration</translation>
     </message>
     <message>
         <location filename="../base_set_ui.ui" line="20"/>
         <source>配置</source>
-        <translation>config</translation>
+        <translation>Configuration</translation>
     </message>
     <message>
         <location filename="../base_set_ui.ui" line="56"/>
         <source>历史点迹数量</source>
-        <translation>history track amount</translation>
+        <translation>Target Tail Length</translation>
     </message>
     <message>
         <location filename="../base_set_ui.ui" line="39"/>
         <source>版本超时时间</source>
-        <translation>response time threshold</translation>
+        <translation>Response Time Threshold</translation>
     </message>
     <message>
         <location filename="../base_set_ui.ui" line="29"/>
         <source>握手超时时间</source>
-        <translation>handshake time threshold</translation>
+        <translation>Handshake Time Threshold</translation>
     </message>
     <message>
         <location filename="../base_set_ui.ui" line="46"/>
         <source>升级包大小</source>
-        <translation>update packet size</translation>
+        <translation>Update Packet Size</translation>
     </message>
     <message>
         <location filename="../base_set_ui.ui" line="64"/>
@@ -847,32 +847,32 @@
     <message>
         <location filename="../base_set_ui.ui" line="80"/>
         <source>数据库（集中器模式）</source>
-        <translation>database(concentrator mode)</translation>
+        <translation>Database(RS485 HUB)</translation>
     </message>
     <message>
         <location filename="../base_set_ui.ui" line="91"/>
         <source>数据库</source>
-        <translation>database</translation>
+        <translation>Database</translation>
     </message>
     <message>
         <location filename="../base_set_ui.ui" line="101"/>
         <source>端口</source>
-        <translation>port</translation>
+        <translation>Port</translation>
     </message>
     <message>
         <location filename="../base_set_ui.ui" line="118"/>
         <source>地址</source>
-        <translation>address</translation>
+        <translation>Address</translation>
     </message>
     <message>
         <location filename="../base_set_ui.ui" line="125"/>
         <source>密码</source>
-        <translation>password</translation>
+        <translation>Password</translation>
     </message>
     <message>
         <location filename="../base_set_ui.ui" line="132"/>
         <source>用户名</source>
-        <translation>user id</translation>
+        <translation>User ID</translation>
     </message>
 </context>
 <context>
@@ -880,12 +880,12 @@
     <message>
         <location filename="../cloud_point.ui" line="14"/>
         <source>三维点云图</source>
-        <translation>3d point cloud view</translation>
+        <translation>3D Point Cloud View</translation>
     </message>
     <message>
         <location filename="../cloud_point.ui" line="30"/>
         <source>点数：</source>
-        <translation>Points amount:</translation>
+        <translation>Number of Points:</translation>
     </message>
     <message>
         <location filename="../cloud_point.ui" line="37"/>
@@ -895,17 +895,17 @@
     <message>
         <location filename="../cloud_point.ui" line="65"/>
         <source>三维（x轴-蓝，y轴-黄，z轴-绿）</source>
-        <translation>3d axis(x-blue, y-yellow, z-green)</translation>
+        <translation>3D Axis(X-Blue, Y-Yellow, Z-Green)</translation>
     </message>
     <message>
         <location filename="../cloud_point.ui" line="73"/>
         <source>模式：</source>
-        <translation>mode:</translation>
+        <translation>Mode:</translation>
     </message>
     <message>
         <location filename="../cloud_point.ui" line="22"/>
         <source>二维（x轴-水平，y轴-垂直）</source>
-        <translation>2d axis(x-horizontal,y-vertical)</translation>
+        <translation>2D Axis(X-Horizontal,Y-Vertical)</translation>
     </message>
 </context>
 <context>
@@ -913,7 +913,7 @@
     <message>
         <location filename="../connect_set_ui.ui" line="14"/>
         <source>连接配置</source>
-        <translation>Connection config</translation>
+        <translation>Connection Settings</translation>
     </message>
     <message>
         <location filename="../connect_set_ui.ui" line="20"/>
@@ -949,7 +949,7 @@
     <message>
         <location filename="../connect_set_ui.ui" line="70"/>
         <source>集中器</source>
-        <translation>Concentrator</translation>
+        <translation>RS485 HUB</translation>
     </message>
 </context>
 <context>
@@ -957,7 +957,7 @@
     <message>
         <location filename="../ip_sel_ui.ui" line="14"/>
         <source>ip选择</source>
-        <translation>IP select</translation>
+        <translation>IP Select</translation>
     </message>
     <message>
         <location filename="../ip_sel_ui.ui" line="32"/>
@@ -993,12 +993,12 @@
     <message>
         <location filename="../new_ip_ui.ui" line="14"/>
         <source>雷达配置</source>
-        <translation>Radar config</translation>
+        <translation>Radar Config</translation>
     </message>
     <message>
         <location filename="../new_ip_ui.ui" line="20"/>
         <source>IP地址</source>
-        <translation>IP address</translation>
+        <translation>IP Address</translation>
     </message>
 </context>
 <context>
@@ -1006,7 +1006,7 @@
     <message>
         <location filename="../radar_set_ui.ui" line="14"/>
         <source>雷达配置</source>
-        <translation>Radar config</translation>
+        <translation>Radar Config</translation>
     </message>
     <message>
         <location filename="../radar_set_ui.ui" line="20"/>
@@ -1016,22 +1016,22 @@
     <message>
         <location filename="../radar_set_ui.ui" line="36"/>
         <source>雷达水平偏角</source>
-        <translation>Radar horizontal angle</translation>
+        <translation>Radar Horizontal Angle</translation>
     </message>
     <message>
         <location filename="../radar_set_ui.ui" line="46"/>
         <source>正上为0，正右为90</source>
-        <translation>up-top=0,right=90</translation>
+        <translation>Up-Top=0,Right=90</translation>
     </message>
     <message>
         <location filename="../radar_set_ui.ui" line="70"/>
         <source>雷达垂直倾角</source>
-        <translation>Radar vertical angle</translation>
+        <translation>Radar Vertical Angle</translation>
     </message>
     <message>
         <location filename="../radar_set_ui.ui" line="53"/>
         <source>水平为0，天线面朝下为90</source>
-        <translation>horizontal=0,face to ground=90</translation>
+        <translation>Upright=0,Face to Ground=90</translation>
     </message>
     <message>
         <location filename="../radar_set_ui.ui" line="26"/>
@@ -1051,25 +1051,25 @@
     <message>
         <location filename="../radar_set_ui.ui" line="96"/>
         <source>背景实际距离</source>
-        <translation>Background actural distance</translation>
+        <translation>Background Size</translation>
     </message>
     <message>
         <location filename="../radar_set_ui.ui" line="103"/>
         <location filename="../radar_set_ui.ui" line="137"/>
         <source>左右</source>
-        <translation>Left to right</translation>
+        <translation>Left to Right</translation>
     </message>
     <message>
         <location filename="../radar_set_ui.ui" line="113"/>
         <location filename="../radar_set_ui.ui" line="147"/>
         <source>上下</source>
-        <translation>up to down</translation>
+        <translation>Up to Down</translation>
     </message>
     <message>
         <location filename="../radar_set_ui.ui" line="123"/>
         <location filename="../radar_set_ui.ui" line="157"/>
         <source>米</source>
-        <translation>meter</translation>
+        <translation>Meter</translation>
     </message>
     <message>
         <location filename="../radar_set_ui.ui" line="164"/>
@@ -1079,12 +1079,12 @@
     <message>
         <location filename="../radar_set_ui.ui" line="130"/>
         <source>雷达位置</source>
-        <translation>Radar location</translation>
+        <translation>Radar Location</translation>
     </message>
     <message>
         <location filename="../radar_set_ui.ui" line="89"/>
         <source>背景图片路径</source>
-        <translation>Background picture path</translation>
+        <translation>Background Picture Path</translation>
     </message>
 </context>
 <context>
@@ -1092,17 +1092,17 @@
     <message>
         <location filename="../scene_light_set_ui.ui" line="14"/>
         <source>场景雷达配置</source>
-        <translation>Radar config for Scene</translation>
+        <translation>Radar Config For Scene</translation>
     </message>
     <message>
         <location filename="../scene_light_set_ui.ui" line="20"/>
         <source>上下</source>
-        <translation>up to down</translation>
+        <translation>Up To Down</translation>
     </message>
     <message>
         <location filename="../scene_light_set_ui.ui" line="30"/>
         <source>灯控位置</source>
-        <translation>light pos</translation>
+        <translation>Light Pos</translation>
     </message>
     <message>
         <location filename="../scene_light_set_ui.ui" line="56"/>
@@ -1112,7 +1112,7 @@
     <message>
         <location filename="../scene_light_set_ui.ui" line="63"/>
         <source>灯控id</source>
-        <translation>light id</translation>
+        <translation>Light ID</translation>
     </message>
     <message>
         <location filename="../scene_light_set_ui.ui" line="73"/>
@@ -1122,12 +1122,12 @@
     <message>
         <location filename="../scene_light_set_ui.ui" line="80"/>
         <source>左右</source>
-        <translation>Left to right</translation>
+        <translation>Left To Right</translation>
     </message>
     <message>
         <location filename="../scene_light_set_ui.ui" line="89"/>
         <source>关联雷达列表：</source>
-        <translation>relate radars</translation>
+        <translation>Relate Radars</translation>
     </message>
     <message>
         <location filename="../scene_light_set_ui.ui" line="109"/>
@@ -1150,52 +1150,52 @@
     <message>
         <location filename="../scene_radar_set_ui.ui" line="14"/>
         <source>场景雷达配置</source>
-        <translation>Radar config for Scene</translation>
+        <translation>Radar Config For Scene</translation>
     </message>
     <message>
         <location filename="../scene_radar_set_ui.ui" line="20"/>
         <source>雷达id</source>
-        <translation>Radar id</translation>
+        <translation>Radar ID</translation>
     </message>
     <message>
         <location filename="../scene_radar_set_ui.ui" line="27"/>
         <source>雷达位置</source>
-        <translation>Radar location</translation>
+        <translation>Radar Location</translation>
     </message>
     <message>
         <location filename="../scene_radar_set_ui.ui" line="34"/>
         <source>左右</source>
-        <translation>Left to right</translation>
+        <translation>Left To Right</translation>
     </message>
     <message>
         <location filename="../scene_radar_set_ui.ui" line="44"/>
         <source>上下</source>
-        <translation>up to down</translation>
+        <translation>Up To Down</translation>
     </message>
     <message>
         <location filename="../scene_radar_set_ui.ui" line="54"/>
         <source>米</source>
-        <translation>meter</translation>
+        <translation>Meter</translation>
     </message>
     <message>
         <location filename="../scene_radar_set_ui.ui" line="61"/>
         <source>雷达水平偏角</source>
-        <translation>Radar horizontal angle</translation>
+        <translation>Radar Horizontal Angle</translation>
     </message>
     <message>
         <location filename="../scene_radar_set_ui.ui" line="71"/>
         <source>正上为0，正右为90</source>
-        <translation>up-top=0,right=90</translation>
+        <translation>Up-Top=0,Right=90</translation>
     </message>
     <message>
         <location filename="../scene_radar_set_ui.ui" line="78"/>
         <source>雷达垂直倾角</source>
-        <translation>Radar vertical angle</translation>
+        <translation>Radar Vertical Angle</translation>
     </message>
     <message>
         <location filename="../scene_radar_set_ui.ui" line="88"/>
         <source>水平为0，天线面朝下为90</source>
-        <translation>horizontal=0,face to ground=90</translation>
+        <translation>Horizontal=0,Face To Ground=90</translation>
     </message>
     <message>
         <location filename="../scene_radar_set_ui.ui" line="108"/>
@@ -1208,7 +1208,7 @@
     <message>
         <location filename="../scene_set_ui.ui" line="14"/>
         <source>场景配置</source>
-        <translation>Scene config</translation>
+        <translation>Scene Config</translation>
     </message>
     <message>
         <location filename="../scene_set_ui.ui" line="20"/>
@@ -1218,7 +1218,7 @@
     <message>
         <location filename="../scene_set_ui.ui" line="64"/>
         <source>图片路径</source>
-        <translation>Picture path</translation>
+        <translation>Picture Path</translation>
     </message>
     <message>
         <location filename="../scene_set_ui.ui" line="80"/>
@@ -1228,17 +1228,17 @@
     <message>
         <location filename="../scene_set_ui.ui" line="30"/>
         <source>实际距离</source>
-        <translation>Actural distance</translation>
+        <translation>Actual Distance</translation>
     </message>
     <message>
         <location filename="../scene_set_ui.ui" line="37"/>
         <source>左右</source>
-        <translation>Left to right</translation>
+        <translation>Left To Right</translation>
     </message>
     <message>
         <location filename="../scene_set_ui.ui" line="47"/>
         <source>上下</source>
-        <translation>up to down</translation>
+        <translation>Up To Down</translation>
     </message>
     <message>
         <location filename="../scene_set_ui.ui" line="57"/>
@@ -1251,12 +1251,12 @@
     <message>
         <location filename="../sys_config_ui.ui" line="14"/>
         <source>系统配置</source>
-        <translation>System config</translation>
+        <translation>System Configuration</translation>
     </message>
     <message>
         <location filename="../sys_config_ui.ui" line="35"/>
         <source>设备配置</source>
-        <translation>Device config</translation>
+        <translation>Device ID</translation>
     </message>
     <message>
         <location filename="../sys_config_ui.ui" line="47"/>
@@ -1266,62 +1266,62 @@
     <message>
         <location filename="../sys_config_ui.ui" line="61"/>
         <source>WIFI工作模式</source>
-        <translation>WIFI work mode</translation>
+        <translation>WIFI Mode</translation>
     </message>
     <message>
         <location filename="../sys_config_ui.ui" line="69"/>
         <source>Station模式</source>
-        <translation>Station mode</translation>
+        <translation>Station Mode</translation>
     </message>
     <message>
         <location filename="../sys_config_ui.ui" line="74"/>
         <source>AP模式</source>
-        <translation>AP mode</translation>
+        <translation>AP Mode</translation>
     </message>
     <message>
         <location filename="../sys_config_ui.ui" line="82"/>
         <source>485地址</source>
-        <translation>485 address</translation>
+        <translation>485 Address</translation>
     </message>
     <message>
         <location filename="../sys_config_ui.ui" line="92"/>
         <source>485波特率</source>
-        <translation>485 baudrate</translation>
+        <translation>485 Baudrate</translation>
     </message>
     <message>
         <location filename="../sys_config_ui.ui" line="102"/>
         <source>服务器地址</source>
-        <translation>Server address</translation>
+        <translation>Server Address</translation>
     </message>
     <message>
         <location filename="../sys_config_ui.ui" line="112"/>
         <source>服务器端口</source>
-        <translation>Server port</translation>
+        <translation>Server Port</translation>
     </message>
     <message>
         <location filename="../sys_config_ui.ui" line="122"/>
         <source>WIFI名称</source>
-        <translation>WIFI name</translation>
+        <translation>WAYV WIFI Name</translation>
     </message>
     <message>
         <location filename="../sys_config_ui.ui" line="132"/>
         <source>WIFI密码</source>
-        <translation>WIFI password</translation>
+        <translation>WAYV WIFI Password</translation>
     </message>
     <message>
         <location filename="../sys_config_ui.ui" line="142"/>
         <source>WIFI接入名称</source>
-        <translation>WIFI insert name</translation>
+        <translation>WIFI  Name</translation>
     </message>
     <message>
         <location filename="../sys_config_ui.ui" line="152"/>
         <source>WIFI接入密码</source>
-        <translation>WIFI insert code</translation>
+        <translation>WIFI Password</translation>
     </message>
     <message>
         <location filename="../sys_config_ui.ui" line="165"/>
         <source>射频开关</source>
-        <translation>Radio switch</translation>
+        <translation>Radio Switch</translation>
     </message>
     <message>
         <location filename="../sys_config_ui.ui" line="177"/>
@@ -1342,7 +1342,7 @@
         <location filename="../sys_config_ui.ui" line="198"/>
         <location filename="../sys_config_ui.ui" line="273"/>
         <source>时效</source>
-        <translation>Effective period</translation>
+        <translation>Effective Period</translation>
     </message>
     <message>
         <location filename="../sys_config_ui.ui" line="206"/>
@@ -1359,7 +1359,7 @@
     <message>
         <location filename="../sys_config_ui.ui" line="235"/>
         <source>系统工作模式</source>
-        <translation>System work mode</translation>
+        <translation>System Work Mode</translation>
     </message>
     <message>
         <location filename="../sys_config_ui.ui" line="247"/>
@@ -1369,22 +1369,22 @@
     <message>
         <location filename="../sys_config_ui.ui" line="255"/>
         <source>正常模式</source>
-        <translation>Normal mode</translation>
+        <translation>Normal Mode</translation>
     </message>
     <message>
         <location filename="../sys_config_ui.ui" line="260"/>
         <source>产线模式</source>
-        <translation>Production line mode</translation>
+        <translation>Production Line Mode</translation>
     </message>
     <message>
         <location filename="../sys_config_ui.ui" line="265"/>
         <source>点云模式</source>
-        <translation>Points cloud mode</translation>
+        <translation>Points Cloud Mode</translation>
     </message>
     <message>
         <location filename="../sys_config_ui.ui" line="310"/>
         <source>CFG命令</source>
-        <translation>CFG cmd</translation>
+        <translation>CFG CMD (WARNING: READ MANUAL BEFORE CHANGING)</translation>
     </message>
     <message>
         <location filename="../sys_config_ui.ui" line="333"/>

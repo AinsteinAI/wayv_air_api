@@ -817,7 +817,7 @@
     <message>
         <location filename="../base_set_ui.ui" line="56"/>
         <source>历史点迹数量</source>
-        <translation>Hstory Track Amount</translation>
+        <translation>History Track Amount</translation>
     </message>
     <message>
         <location filename="../base_set_ui.ui" line="39"/>
@@ -1301,22 +1301,22 @@
     <message>
         <location filename="../sys_config_ui.ui" line="122"/>
         <source>WIFI名称</source>
-        <translation>WIFI Name</translation>
+        <translation>WAYV WIFI Name</translation>
     </message>
     <message>
         <location filename="../sys_config_ui.ui" line="132"/>
         <source>WIFI密码</source>
-        <translation>WIFI Password</translation>
+        <translation>WAYV WIFI Password</translation>
     </message>
     <message>
         <location filename="../sys_config_ui.ui" line="142"/>
         <source>WIFI接入名称</source>
-        <translation>WIFI Insert Name</translation>
+        <translation>WIFI  Name</translation>
     </message>
     <message>
         <location filename="../sys_config_ui.ui" line="152"/>
         <source>WIFI接入密码</source>
-        <translation>WIFI Insert Code</translation>
+        <translation>WIFI Password</translation>
     </message>
     <message>
         <location filename="../sys_config_ui.ui" line="165"/>
@@ -1384,7 +1384,7 @@
     <message>
         <location filename="../sys_config_ui.ui" line="310"/>
         <source>CFG命令</source>
-        <translation>CFG CMD</translation>
+        <translation>CFG CMD (WARNING: READ MANUAL BEFORE CHANGING)</translation>
     </message>
     <message>
         <location filename="../sys_config_ui.ui" line="333"/>

@@ -1281,12 +1281,12 @@
     <message>
         <location filename="../sys_config_ui.ui" line="82"/>
         <source>485地址</source>
-        <translation>485 Address</translation>
+        <translation>Serial Address</translation>
     </message>
     <message>
         <location filename="../sys_config_ui.ui" line="92"/>
         <source>485波特率</source>
-        <translation>485 Baudrate</translation>
+        <translation>Serial Baudrate</translation>
     </message>
     <message>
         <location filename="../sys_config_ui.ui" line="102"/>

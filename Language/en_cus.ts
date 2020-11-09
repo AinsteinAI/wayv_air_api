@@ -140,7 +140,7 @@
     <message>
         <location filename="../vave.py" line="499"/>
         <source>485总线</source>
-        <translation>485 BUS</translation>
+        <translation>Serial BUS</translation>
     </message>
     <message>
         <location filename="../vave.py" line="505"/>

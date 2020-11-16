@@ -169,6 +169,7 @@ if __name__ == "__main__":
     serial_baud = 115200
     comm_mode = MODE_485
     wifi_ip = '192.168.4.65'
+    wifi_port = 8877
     target_detail = 0
     velocity_enable = 0
     point_num_enable = 0
@@ -183,7 +184,8 @@ if __name__ == "__main__":
     firmware_up = []
     radars_seen = []
 
-    help_str = (" -ip: PC WiFi IP address. Defaults to serial communication if this option is not supplied\n"
+    help_str = (" -ip: Host WiFi IP address. Defaults to serial communication if this option is not supplied\n"
+                " -wifi_port: WiFi server (host) port; must match the device's config\n"
                 " -vel: Optional argument, provide this argument to read targets' velocities. Not supported in all modes \n"
                 " -v, -vv, or -vvv: verbosity\n"
                 " -p: serial port (ignored if -ip is used)\n"
@@ -207,6 +209,8 @@ if __name__ == "__main__":
             elif sys.argv[i] == "-ip":
                 wifi_ip = sys.argv[i+1]
                 comm_mode = MODE_WIFI
+            elif sys.argv[i] == "-wifi_port":
+                wifi_port = int(sys.argv[i+1])
             elif sys.argv[i] == "-vel":
                 velocity_enable = 1
                 target_detail = 1
@@ -274,7 +278,7 @@ if __name__ == "__main__":
     timer.timeout.connect(supervisor)
     wayv_air = Wayv_Air_API(targ_callback, radar_con_callback, pcl_callback,
                             (v_level >= 3), comm_mode, serial_port, serial_baud,
-                            rs485_id, wifi_ip, target_detail)
+                            rs485_id, wifi_ip, target_detail, wifi_port)
     wayv_air.radar_connect()
     time.sleep(2)  # delay long enough for the radar to connect over WiFi
     sys.exit(app.exec_())

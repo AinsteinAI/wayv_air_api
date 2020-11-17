@@ -56,7 +56,7 @@ class Wayv_Air_Radar():
 
 class Wayv_Air_API():
     def __init__(self, t_callback, c_callback, pcl_callback, verbose, comm_mode,
-                 serial_port, serial_baud, RS485_ID, ip, detail_target_enable):
+                 serial_port, serial_baud, RS485_ID, ip, detail_target_enable, wifi_port=8877):
         self.receiver = None
         self.clients = None
         self.project = Project()
@@ -72,6 +72,7 @@ class Wayv_Air_API():
         self.pcl_callback_fcn = pcl_callback
         self.id_485 = str(RS485_ID)
         self.ip = ip
+        self.project.wifi_server_port = wifi_port
         self.verbose = verbose
         self.radars = {}  # this is a dictionary of Wayv_Air_Radar objects
 

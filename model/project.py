@@ -132,13 +132,10 @@ class TestConfig(object):
         self.turntable_com = ""
 
 
-SOFTWARE_VERSION = "1.200.1.11"
-
 
 class Project(object):
     def __init__(self):
         self.project_version = 3
-        self.soft_version = SOFTWARE_VERSION
         # 雷达配置列表 key为唯一描述符 value为rconfig对象
         self.rconfigs_485 = {}
         self.rconfigs_wifi = {}

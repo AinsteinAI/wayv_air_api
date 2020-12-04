@@ -279,6 +279,8 @@ if __name__ == "__main__":
     wayv_air = Wayv_Air_API(targ_callback, radar_con_callback, pcl_callback,
                             (v_level >= 3), comm_mode, serial_port, serial_baud,
                             rs485_id, wifi_ip, target_detail, wifi_port)
+    if v_level >= 1:
+        print("WAYV Air API version:", wayv_air.version)
     wayv_air.radar_connect()
     time.sleep(2)  # delay long enough for the radar to connect over WiFi
     sys.exit(app.exec_())

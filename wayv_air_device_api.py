@@ -26,6 +26,7 @@ from worker.worker_485 import Worker485
 from worker.worker_wifi import WorkerWifi
 from worker.msg.msg_detail import *
 from worker.msg.msg_tlv import MsgTlv
+from api_version import api_version
 
 
 MODE_485 = 0  # should get this from worker?
@@ -75,6 +76,8 @@ class Wayv_Air_API():
         self.project.wifi_server_port = wifi_port
         self.verbose = verbose
         self.radars = {}  # this is a dictionary of Wayv_Air_Radar objects
+        ver = api_version()
+        self.version = ver.version
 
     def radar_connect(self):
         if self.receiver is None:

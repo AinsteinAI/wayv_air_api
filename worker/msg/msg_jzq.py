@@ -90,7 +90,7 @@ class MsgJZQRecv(MsgJZQ):
                 if len(cache) >= 5:
                     # 数据长度
                     data_len = struct.unpack('<H', cache[3: 5])[0]
-                    if data_len > 1024:
+                    if data_len > 1400:
                         # 异常包，正常一包数据长度不会超过1M
                         cache = cache[5:]
                         continue

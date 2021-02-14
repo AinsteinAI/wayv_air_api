@@ -129,7 +129,7 @@ class Msg485Recv(Msg485):
                     protocol_code = struct.unpack('<H', cache[6: 8])[0]
                     # 数据长度
                     data_len = struct.unpack('<H', cache[8: 10])[0]
-                    if data_len > 1024:
+                    if data_len > 1400:
                         # 异常包，正常一包数据长度不会超过1k
                         cache = cache[10:]
                         continue

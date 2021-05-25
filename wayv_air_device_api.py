@@ -249,6 +249,18 @@ class Wayv_Air_API():
 
             else:
                 print("Error: please specify a valid path to the firmware .bin file")
+    
+    def update_sbl(self, id, file):
+        if self.receiver is None:
+            print("Error: No radar is connected; cannot update SBL")
+        else:
+            if os.path.exists(file) and file.split('.')[-1] == 'bin':
+                self.radars[id].progress = 0
+                self.radars[id].ready = False
+                print("Updating radar bootloader")
+                self.receiver.sbl_update(file,id)
+            else:
+                print("Error: Please specify a valid path to the SBL .bin file")
 
     def modify_comm_config(self, id, file):
         # Check to make sure that we're starting from a good config.

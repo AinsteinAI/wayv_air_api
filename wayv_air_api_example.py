@@ -22,10 +22,10 @@ import copy
 import os
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
-from wayv_air_device_api import Wayv_Air_API
+from wayv_air_device_api import *
 
 def radar_con_callback(id):
-    global new_firmware, query_config, comm_config, param_config, firmware_up, enbl_pcl
+    global new_firmware, query_config, comm_config, param_config, firmware_up, enbl_pcl, new_sbl, sbl_up
     if id not in radars_seen:
         radars_seen.append(id)
         if new_comm_config:
@@ -34,6 +34,8 @@ def radar_con_callback(id):
             param_config.append(id)  # tell the supervisor to update this radar's radar parameters
         if new_firmware:
             firmware_up.append(id)  # tell the supervisor to update this radar's firmware
+        if new_sbl:
+            sbl_up.append(id) #tell supervisor to update SBL
         if enbl_pcl:
             wayv_air.enable_pcl(id)
     query_config.append(id)  # tell the supervisor to query the config for this radar
@@ -95,7 +97,7 @@ def supervisor():
     # This function handles less time-sensitive operations like updating configurations
     # and firmware. It also provides a mechanism for the Python interpreter to run so the
     # signint handler can exit the program properly
-    global query_config, comm_config, param_config, new_firmware
+    global query_config, comm_config, param_config, new_firmware, new_sbl
 
     for v in wayv_air.radars.values():
     # print progress updates
@@ -113,6 +115,8 @@ def supervisor():
                 for item in v.comm_config.__dict__.items():
                     print(item)
                 print("")
+            if v_level >= 1:
+                print("Device: ", v.ser_no, "SBL Version: ", v.sbl_version)
         if v.radar_config_recvd:
             v.radar_config_recvd = False
             if v_level >= 1:
@@ -140,6 +144,11 @@ def supervisor():
         if id not in query_config:
             query_config.append(id)
         wayv_air.update_firmware(id, fw_path)
+    elif len(sbl_up) > 0:
+        id = sbl_up.pop(0)
+        if id not in query_config:
+            query_config.append(id)
+        wayv_air.update_sbl(id, sbl_path)
 
 '''
 End user-defined code block
@@ -177,11 +186,13 @@ if __name__ == "__main__":
     new_comm_config = False
     new_param_config = False
     new_firmware = False
+    new_sbl = False
     enbl_pcl = False
     query_config = []
     comm_config = []
     param_config = []
     firmware_up = []
+    sbl_up = []
     radars_seen = []
 
     help_str = (" -ip: Host WiFi IP address. Defaults to serial communication if this option is not supplied\n"
@@ -195,6 +206,7 @@ if __name__ == "__main__":
                 " -net: path to network communication config file (.net) to be loaded\n"
                 " -cfg: path to radar parameter config file (.cfg) to be loaded\n"
                 " -fw: path to firmware .bin file to be loaded\n"
+                " -sbl: path to the bootloader .bin file to be loaded\n"
                 " -pcl: enable point cloud output from the Wayv Air\n"
                 " -baud: serial baud rate; must match what the Wayv Air is already set to")
 
@@ -239,6 +251,12 @@ if __name__ == "__main__":
                 if not os.path.exists(fw_path) or fw_path.split('.')[-1] != 'bin':
                     print("Error: please specify a path to a .bin file")
                     sys.exit(1)
+            elif sys.argv[i] == "-sbl":
+                new_sbl = True
+                sbl_path = sys.argv[i+1]
+                if not os.path.exists(sbl_path) or sbl_path.split('.')[-1] != 'bin' or sbl_path.split('-')[1] != 'sbl': #additional check for sbl file safety
+                    print("Error: Please specify a path to a .bin file")
+                    sys.exit(1)
             elif sys.argv[i] == "-pcl":
                 enbl_pcl = True
             elif sys.argv[i] == "-baud":
@@ -247,7 +265,7 @@ if __name__ == "__main__":
                 print(help_str)
                 sys.exit(0)
 
-    if enbl_pcl and (new_firmware or new_param_config or new_comm_config):
+    if enbl_pcl and (new_firmware or new_param_config or new_comm_config or new_sbl):
         print("Error: updates are not supported in point cloud mode")
         sys.exit(1)
 

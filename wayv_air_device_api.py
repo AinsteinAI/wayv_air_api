@@ -254,7 +254,8 @@ class Wayv_Air_API():
         if self.receiver is None:
             print("Error: No radar is connected; cannot update SBL")
         else:
-            if os.path.exists(file) and file.split('.')[-1] == 'bin' and (file.split('-')[1] == 'sbl' or file.split('_')[1] == 'sbl'):
+            file = file.replace('-','_')
+            if os.path.exists(file) and file.split('.')[-1] == 'bin' and file.split('_')[1] == 'sbl': 
                 self.radars[id].progress = 0
                 self.radars[id].ready = False
                 print("Updating radar bootloader")

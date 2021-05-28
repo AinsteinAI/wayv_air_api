@@ -254,7 +254,7 @@ if __name__ == "__main__":
             elif sys.argv[i] == "-sbl":
                 new_sbl = True
                 sbl_path = sys.argv[i+1]
-                if not os.path.exists(sbl_path) or sbl_path.split('.')[-1] != 'bin' or sbl_path.split('-')[1] != 'sbl': #additional check for sbl file safety
+                if not os.path.exists(sbl_path) or sbl_path.split('.')[-1] != 'bin':
                     print("Error: Please specify a path to a .bin file")
                     sys.exit(1)
             elif sys.argv[i] == "-pcl":

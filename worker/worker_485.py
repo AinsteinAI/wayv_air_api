@@ -85,7 +85,7 @@ class Worker485(WorkerBase):
         data = None
         try:
             data = self.ser.read(count)
-        except serial.Timeout:
+        except serial.SerialTimeoutException:
             pass
         # if data is not None and len(data) > 0:
             # print(datetime.datetime.now().strftime('%H:%M:%S.%f'), end=" ")

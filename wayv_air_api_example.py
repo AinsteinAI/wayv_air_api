@@ -17,11 +17,13 @@ Copyright 2020, Ainstein Inc. All Rights Reserved
 
 import sys
 import signal
+import smokesignal
 import time
 import copy
 import os
-from PyQt5.QtCore import *
-from PyQt5.QtWidgets import *
+from worker.msg.test_msg import TestMsgFunc
+from worker.msg.msg_tlv import MsgTlv
+from worker.msg.msg_detail import MsgDetail, MsgTarget, MsgTargetObject, MsgVersion
 from wayv_air_device_api import Wayv_Air_API
 
 def radar_con_callback(id):
@@ -125,17 +127,17 @@ def supervisor():
     if len(query_config) > 0:
         id = query_config.pop(0)
         wayv_air.query_config(id)  # the API only support querying one radar at a time
-    elif len(comm_config) > 0:
+    if len(comm_config) > 0:
         id = comm_config.pop(0)
         wayv_air.modify_comm_config(id, comm_file)  # only the first radar in this example
         if id not in query_config:
             query_config.append(id)
-    elif len(param_config) > 0:
+    if len(param_config) > 0:
         id = param_config.pop(0)
         wayv_air.modify_param_config(id, param_file)  # only the first radar in this example
         if id not in query_config:
             query_config.append(id)
-    elif len(firmware_up) > 0:
+    if len(firmware_up) > 0:
         id = firmware_up.pop(0)
         if id not in query_config:
             query_config.append(id)
@@ -153,8 +155,7 @@ def sigint_handler(*args):
         radar_list.append(r)
     for r in radar_list:
         wayv_air.radar_disconnect(r) # disconnect the radar before quitting
-    QApplication.quit()
-    app.quit()
+    sys.exit()
 
 if __name__ == "__main__":
     MODE_485 = 0
@@ -270,17 +271,12 @@ if __name__ == "__main__":
     # Set up an event loop to make the python interpreter run periodically
     # so that ctrl+c will disconnect the radar and kill the program
     signal.signal(signal.SIGINT, sigint_handler)
-
-    # The QApplication must be started before anything can be sent to, or received from, the Wayv Air
-    app = QApplication(sys.argv)
-    timer = QTimer()
-    timer.start(2000)
-    timer.timeout.connect(supervisor)
     wayv_air = Wayv_Air_API(targ_callback, radar_con_callback, pcl_callback,
                             (v_level >= 3), comm_mode, serial_port, serial_baud,
                             rs485_id, wifi_ip, target_detail, wifi_port)
     if v_level >= 1:
         print("WAYV Air API version:", wayv_air.version)
     wayv_air.radar_connect()
+    wayv_air.new_msg(wayv_air.id_485, MsgVersion)
     time.sleep(2)  # delay long enough for the radar to connect over WiFi
-    sys.exit(app.exec_())
+    supervisor()

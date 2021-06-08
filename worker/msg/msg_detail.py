@@ -147,17 +147,11 @@ class Tag(object):
         self.targets = []
 
     def __str__(self):
-        if global_translator.local_language == QLocale.Chinese:
-            out_text = "目标数量:%d 温度:%.1f℃ 电压:%.1fV 功率:%.1fW TX1温度:%d TX2温度:%d TX3温度:%d PM温度:%d " % (
-                len(self.targets), self.temp, self.vol / 1000, self.power / 1000, self.tem_tx1, self.tem_tx2,
-                self.tem_tx3,
-                self.tem_pm)
-        else:
-            out_text = "Target num:%d Temperature:%.1f℃  Voltage:%.1fV Power:%.1fW TX1 Temperature:%d TX2 " \
-                       "Temperature:%d TX3 Temperature:%d PM Temperature:%d " % (len(self.targets), self.temp,
-                                                                                 self.vol / 1000, self.power / 1000,
-                                                                                 self.tem_tx1, self.tem_tx2,
-                                                                                 self.tem_tx3, self.tem_pm)
+        out_text = "Target num:%d Temperature:%.1f℃  Voltage:%.1fV Power:%.1fW TX1 Temperature:%d TX2 " \
+                "Temperature:%d TX3 Temperature:%d PM Temperature:%d " % (len(self.targets), self.temp,
+                                                                            self.vol / 1000, self.power / 1000,
+                                                                            self.tem_tx1, self.tem_tx2,
+                                                                            self.tem_tx3, self.tem_pm)
         return out_text
 
 

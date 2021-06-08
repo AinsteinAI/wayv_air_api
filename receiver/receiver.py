@@ -19,13 +19,14 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 Contact: hi@ainstein.ai
  '''
 from PyQt5 import QtCore
+from threading import * 
 import logging
 from model.project import GI
 
 logger = logging.getLogger(GI.log_main_module + '.' + __name__)
 logger.setLevel(GI.log_level)
 
-class Receiver(QtCore.QThread):
+class Receiver(Thread):
     """
     数据接收器，基类，子类需要重写各函数（prepare，destroy，recv_data）
     """

@@ -18,9 +18,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 Contact: hi@ainstein.ai
  '''
 
-from PyQt5.QtCore import *
-from PyQt5.QtWidgets import *
-from PyQt5 import QtTest
+import time
+import smokesignal 
 import datetime
 import copy
 import os
@@ -107,10 +106,10 @@ class Wayv_Air_API():
                 self.receiver = None
                 return
             # set up receiver thread
-            self.receiver.msg_signal.connect(self.new_msg)
-            # self.receiver.progress_result_signal.connect(self.print_result)
-            self.receiver.progress_rate_signal.connect(self.print_progress)
-            self.receiver.client_exit_signal.connect(self.dummy_radar_out)
+            smokesignal.on('msg_signal', self.new_msg)
+            smokesignal.on('progress_result_signal', self.print_result)
+            smokesignal.on('progress_rate_signal', self.print_progress)
+            smokesignal.on('client_exit_signal', self.dummy_radar_out)
             self.receiver.start()
 
             # In RS485 mode, the user has to manually add a radar to the GUI; this is analogous to that
@@ -259,7 +258,7 @@ class Wayv_Air_API():
         self.radars[id].comm_config_recvd = False
         self.query_config(id)
         while self.radars[id].comm_config_recvd == False:
-            QtTest.QTest.qWait(100)  # wait some ms for the fresh config read
+            time.sleep(0.1)  # wait some ms for the fresh config read
         if ((self.radars[id].comm_config.wifi_mode != ROUTER and self.radars[id].comm_config.wifi_mode != DIRECT)
             and self.radars[id].comm_config.dev_id == ''):
             print("Error: invalid comm. config read; not sending new config")
@@ -294,6 +293,6 @@ class Wayv_Air_API():
     def enable_pcl(self, id):
         cmd = 'workMode 2 0'  # only allow temporary changes (0)
         self.send_config(id, cmd)
-        QtTest.QTest.qWait(1500)  # wait for the config to finish before changing modes
+        time.sleep(1.5)  # wait for the config to finish before changing modes
         if self.receiver is not None:
             self.receiver.cloud_mode = True

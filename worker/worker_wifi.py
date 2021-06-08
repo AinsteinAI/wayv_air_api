@@ -19,7 +19,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 Contact: hi@ainstein.ai
  '''
 import socketserver
-from PyQt5 import QtCore
+import smokesignal
 from queue import Queue
 from xmodem import XMODEM
 import os
@@ -30,6 +30,7 @@ from worker.worker_base import *
 from worker.msg.msg_detail import *
 import socket
 import datetime
+import threading
 
 
 class WifiTCPHandler(socketserver.BaseRequestHandler):
@@ -303,7 +304,7 @@ class WifiTCPHandler(socketserver.BaseRequestHandler):
         WorkerWifi.queue_progress_rets.put((self.ip_port, PROGRESS_TYPE_SBL, ret_desc))
 
 
-class WifiTCPServer(QtCore.QThread):
+class WifiTCPServer(Thread):
     def __init__(self, server):
         """
         构造函数
@@ -421,7 +422,7 @@ class WorkerWifi(WorkerBase):
                 # 消息通知
                 while not WorkerWifi.queue_msg.empty():
                     p = WorkerWifi.queue_msg.get()
-                    self.msg_signal.emit(p[0], p[1])
+                    smokesignal.emit('msg_signal', p[0], p[1])
                 # 发送cfg配置
                 if self.cfg_cmds is not None:
                     descs = []
@@ -458,14 +459,14 @@ class WorkerWifi(WorkerBase):
                 #
                 while not WorkerWifi.queue_progress_rate.empty():
                     p = WorkerWifi.queue_progress_rate.get()
-                    self.progress_rate_signal.emit(p[0], p[1], p[2])
+                    smokesignal.emit('progress_rate_signal',p[0], p[1], p[2])
                 while not WorkerWifi.queue_progress_rets.empty():
                     p = WorkerWifi.queue_progress_rets.get()
-                    self.progress_result_signal.emit(p[0], p[1], p[2])
+                    smokesignal.emit('progress_result_signal',p[0], p[1], p[2])
                 # 客户端退出通知
                 while not WorkerWifi.queue_radar_disconnect.empty():
                     p = WorkerWifi.queue_radar_disconnect.get()
-                    self.client_exit_signal.emit(p)
+                    smokesignal.emit('client_exit_signal',p)
             except Exception as e:
                 print(e)
         self.kick_all_client()

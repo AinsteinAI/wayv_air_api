@@ -164,9 +164,9 @@ class Worker485(WorkerBase):
                         elif self.detail_target:
                             ret, msg_detail = self.communicate(id_485, CMD_485_DETAIL_TARGET, timeout=self.comm_timeout)
                         else:
-                            ret, msg_detail = self.communicate(id_485, CMD_485_TARGET, timeout=self.comm_timeout)
-                            smokesignal.emit('msg_signal',id_485, msg_detail)
+                            ret, msg_detail = self.communicate(id_485, CMD_485_TARGET, timeout=self.comm_timeout)                            
                         if ret:
+                            smokesignal.emit('msg_signal',id_485, msg_detail)
                             if ds.error_count > 200:
                                 # 从错误状态变正常，让雷达重新获取版本号
                                 ds.reset()

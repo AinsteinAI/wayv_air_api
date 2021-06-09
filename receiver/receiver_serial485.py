@@ -20,6 +20,7 @@ Contact: hi@ainstein.ai
  '''
 from receiver.receiver import Receiver
 import serial
+import smokesignal
 import struct
 import time
 from xmodem import XMODEM
@@ -83,7 +84,7 @@ class ReceiverSerial485(Receiver):
         # logger.debug('get ver %s' % str(device_id))
         if len(all_recv) > 0:
             # logger.debug('ver response %s' % str(device_id))
-            self.data_signal.emit(str(device_id), all_recv)
+            smokesignal.emit('data_signal',str(device_id), all_recv)
 
     def rcv_version(self, desc, device_id, version):
         self.retrive_version[desc] = False
@@ -112,11 +113,11 @@ class ReceiverSerial485(Receiver):
                             # 这里逻辑较为复杂，不能等待超时（轮询时间过长），又要完整接收到雷达响应，因此需要解析包头
                             response, all_recv = self.get_response(0.2)
                             if len(all_recv) > 0:
-                                self.data_signal.emit(str(device_id), all_recv)
+                                smokesignal.emit('data_signal',str(device_id), all_recv)
                     if self.recv_cloud:
                         response, all_recv = self.get_response(0.2)
                         if len(all_recv) > 0:
-                            self.data_signal.emit(str(device_id), all_recv)
+                            smokesignal.emit('data_signal',str(device_id), all_recv)
                     # 用户控制发送
                     while not self.to_send_queue.empty():
                         msg = self.to_send_queue.get()
@@ -125,7 +126,7 @@ class ReceiverSerial485(Receiver):
                             self.send_msg(device_id, frame_id, msg[0], msg[1], msg[2])
                             response, all_recv = self.get_response(0.2)
                             if len(all_recv) > 0:
-                                self.data_signal.emit(str(device_id), all_recv)
+                                smokesignal.emit('data_signal',str(device_id), all_recv)
                 except Exception as e:
                     logger.error(e)
             self.msleep(10)
@@ -187,7 +188,7 @@ class ReceiverSerial485(Receiver):
             if self.cfg_filter is not None:
                 cfg_filter_segs = self.cfg_filter.split(";")
                 ids_485 = [x for x in self.ids_485 if str(x) in cfg_filter_segs]
-            self.cfg_result_signal.emit("", ";".join([str(x) for x in ids_485]))
+            smokesignal.emit('cfg_result_signal',"", ";".join([str(x) for x in ids_485]))
             for device_id in ids_485:
                 frame_id = 0
                 ret_desc = ""
@@ -202,9 +203,9 @@ class ReceiverSerial485(Receiver):
                         ret_desc += cmd + " : no data received\r\n"
                     elif response[1] != 0x01:
                         ret_desc += cmd + " : %02X" % response[1] + "\r\n"
-                    self.cfg_progress_signal.emit(str(device_id), int(cur_cmd_idx * 100 / len(cmds)))
+                    smokesignal.emit('cfg_result_signal',str(device_id), int(cur_cmd_idx * 100 / len(cmds)))
                     cur_cmd_idx += 1
-                self.cfg_result_signal.emit(str(device_id), ret_desc)
+                smokesignal.emit('cfg_result_signal',str(device_id), ret_desc)
                 self.retrive_version[str(device_id)] = True
 
     def update_firmware(self):
@@ -217,7 +218,7 @@ class ReceiverSerial485(Receiver):
             if self.firmware_filter is not None:
                 firmware_filter_segs = self.firmware_filter.split(";")
                 ids_485 = [x for x in self.ids_485 if str(x) in firmware_filter_segs]
-            self.firm_result_signal.emit("", ";".join([str(x) for x in ids_485]))
+            smokesignal.emit('firm_result_signal',"", ";".join([str(x) for x in ids_485]))
             for device_id in ids_485:
                 ret_desc = ""
                 # 1. 发送ReadyUpdate
@@ -232,14 +233,14 @@ class ReceiverSerial485(Receiver):
                 if not ret:
                     ret_desc = self.tr("ReadyUpdate命令未收到响应")
                 else:
-                    self.firm_progress_signal.emit(str(device_id), 10)
+                    smokesignal.emit('firm_progress_signal',str(device_id), 10)
                     # 2. 发送Update
                     cmd = bytes("Update\n", "utf-8")
                     self.send_msg(device_id, 1, 0x10, 0x0c + len(cmd), cmd)
                     if not self.get_exact_ota_response(b'\xAA\x22\xCC\x55', 20):
                         ret_desc = self.tr("Update命令未收到响应")
                     else:
-                        self.firm_progress_signal.emit(str(device_id), 20)
+                        smokesignal.emit('firm_progress_signal',str(device_id), 20)
                         # 3. XModem协议传输文件
                         file = open(file_path, "rb")
                         file_size = os.path.getsize(file_path)
@@ -285,7 +286,7 @@ class ReceiverSerial485(Receiver):
                             return self.send_msg(device_id, 1, 0x11, 0x0c + len(data), data)
 
                         def callback_func(total_packets, success_count, error_count):
-                            self.firm_progress_signal.emit(str(device_id), 20 + int(success_count * 70 / packet_size))
+                            smokesignal.emit('firm_progress_signal',str(device_id), 20 + int(success_count * 70 / packet_size))
 
                         xmodem = XMODEM(getc, putc, mode='xmodem1k')
                         xmodem_ret = xmodem.send(file, callback=callback_func)
@@ -297,9 +298,9 @@ class ReceiverSerial485(Receiver):
                             if not self.get_exact_ota_response(b'\xAA\x23\xCD\x55', 15):
                                 ret_desc = self.tr("未收到固件更新完成响应")
                             else:
-                                self.firm_progress_signal.emit(str(device_id), 100)
+                                smokesignal.emit('firm_progress_signal',str(device_id), 100)
                                 self.retrive_version[str(device_id)] = True
-                self.firm_result_signal.emit(str(device_id), ret_desc)
+                smokesignal.emit('firm_result_signal',str(device_id), ret_desc)
 
     def decode_bag(self, bag):
         if len(bag) > 10:

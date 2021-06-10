@@ -60,6 +60,9 @@ class WorkerBase(QThread):
         # SBL路径 过滤器
         self.sbl_path = None
         self.sbl_filter = None
+        # 杂波滤除 clutter filter
+        self.filter_region = None
+        self.filter_filter = None
         # 查询 id
         self.query_desc = None
 

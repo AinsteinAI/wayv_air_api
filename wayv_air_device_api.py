@@ -108,7 +108,7 @@ class Wayv_Air_API():
                 return
             # set up receiver thread
             self.receiver.msg_signal.connect(self.new_msg)
-            # self.receiver.progress_result_signal.connect(self.print_result)
+            self.receiver.progress_result_signal.connect(self.print_result)
             self.receiver.progress_rate_signal.connect(self.print_progress)
             self.receiver.client_exit_signal.connect(self.dummy_radar_out)
             self.receiver.start()

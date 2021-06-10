@@ -124,6 +124,10 @@ class Worker485(WorkerBase):
     def cfg_config(self, cfg_cmds, cfg_filter):
         self.cfg_cmds = cfg_cmds.split("\n")
         self.cfg_filter = cfg_filter
+    
+    def filter_config(self, filter_region, filter_filter):
+        self.filter_region = filter_region
+        self.filter_filter = filter_filter
 
     def firm_update(self, firm_path, firm_filter):
         self.firm_path = firm_path
@@ -183,6 +187,15 @@ class Worker485(WorkerBase):
                             self.__cfg_config_one(id_485, self.cfg_cmds)
                             ds.reset()
                     self.cfg_cmds = None
+                    time.sleep(5)
+                # 杂波滤除 CLUTTER FILTER
+                if self.filter_region is not None:
+                    self.progress_result_signal.emit("", PROGRESS_TYPE_CFG, ";".join([x for x in self.filter_filter]))
+                    for id_485, ds in self.device_states.items():
+                        if id_485 in self.filter_filter:
+                            self.__filter_config_one(id_485)
+                            ds.reset()
+                    self.filter_region = None
                     time.sleep(5)
                 # 固件升级
                 if self.firm_path is not None:
@@ -261,6 +274,48 @@ class Worker485(WorkerBase):
             self.progress_rate_signal.emit(id_485, PROGRESS_TYPE_CFG, int(cur_cmd_idx * 100 / len(cfg_cmds)))
             cur_cmd_idx += 1
         self.progress_result_signal.emit(id_485, PROGRESS_TYPE_CFG, ret_desc)
+        
+    def __filter_config_one(self, id_485): #clutter filter executor
+        ret_desc = ""
+        # 1. 查目标
+        targets = []
+        ret, msg_detail = self.communicate(id_485, CMD_485_TARGET, timeout=self.comm_timeout)
+        if ret:
+            self.progress_rate_signal.emit(id_485, PROGRESS_TYPE_CFG, 20)
+            targets = msg_detail.tags[0].targets
+        else:
+            ret_desc = "目标获取失败"
+            self.progress_result_signal.emit(id_485, PROGRESS_TYPE_CFG, ret_desc)
+            return
+        # 2. 查配置
+        cfgs = ""
+        ret, msg_detail = self.communicate(id_485, CMD_485_PARAM, timeout=self.comm_timeout)
+        if ret:
+            self.progress_rate_signal.emit(id_485, PROGRESS_TYPE_CFG, 40)
+            cfgs = msg_detail.cmds
+        else:
+            ret_desc = "获取CFG参数失败"
+            self.progress_result_signal.emit(id_485, PROGRESS_TYPE_CFG, ret_desc)
+            return
+        # 3. 改配置 clutter filter
+        cmds = cfgs.split("\n")
+        new_cmds = []
+        for cmd in cmds:
+            if 'SceneryParam' in cmd:
+                segs = cmd.split(" ")
+                if len(segs) == 7:
+                    # 老语法，统一到新语法，添加0
+                    segs.append("0")
+                if segs[-1] == "0":
+                    new_cmds.append(" ".join(segs))
+                    # 添加杂波点 clutter filter
+                    for t in targets:
+                        new_cmds.append("SceneryParam %f %f %f %f %f %f 1" %
+                                        (t.x + self.filter_region[0], t.x + self.filter_region[1],
+                                         t.y + self.filter_region[2], t.y + self.filter_region[3],
+                                         t.z + self.filter_region[4], t.z + self.filter_region[5]))
+            else:
+                new_cmds.append(cmd)
 
     def __firm_update_one(self, id_485, firm_path):
         ret_desc = ""

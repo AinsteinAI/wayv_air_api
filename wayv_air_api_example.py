@@ -17,13 +17,14 @@ Copyright 2020, Ainstein Inc. All Rights Reserved
 
 import sys
 import signal
+import threading
 import smokesignal
 import time
 import copy
 import os
 from worker.msg.test_msg import TestMsgFunc
 from worker.msg.msg_tlv import MsgTlv
-from worker.msg.msg_detail import MsgDetail, MsgTarget, MsgTargetObject, MsgVersion
+from worker.msg.msg_detail import MsgConfig, MsgDetail, MsgParam, MsgTarget, MsgTargetObject, MsgVersion
 from wayv_air_device_api import Wayv_Air_API
 
 def radar_con_callback(id):
@@ -98,7 +99,7 @@ def supervisor():
     # and firmware. It also provides a mechanism for the Python interpreter to run so the
     # signint handler can exit the program properly
     global query_config, comm_config, param_config, new_firmware
-
+    
     for v in wayv_air.radars.values():
     # print progress updates
         if v.progress > 0:
@@ -271,12 +272,22 @@ if __name__ == "__main__":
     # Set up an event loop to make the python interpreter run periodically
     # so that ctrl+c will disconnect the radar and kill the program
     signal.signal(signal.SIGINT, sigint_handler)
+
+    #Run supervisor on same timer as before to initialize necessary 
+    #config lists, firmware updates, etc
+
     wayv_air = Wayv_Air_API(targ_callback, radar_con_callback, pcl_callback,
                             (v_level >= 3), comm_mode, serial_port, serial_baud,
                             rs485_id, wifi_ip, target_detail, wifi_port)
+                            
+    timer = threading.Timer(2,supervisor)
+    timer.start()
     if v_level >= 1:
         print("WAYV Air API version:", wayv_air.version)
     wayv_air.radar_connect()
-    wayv_air.new_msg(wayv_air.id_485, MsgVersion)
     time.sleep(2)  # delay long enough for the radar to connect over WiFi
-    supervisor()
+
+    #Initialize signal watcher for config 
+    smokesignal.on('config_ready',supervisor)
+    #Join the receiver thread to main thread for better handling of ctrl+c signal
+    wayv_air.receiver.join()

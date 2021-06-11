@@ -247,19 +247,20 @@ class Worker485(WorkerBase):
         ret_desc = ""
         cur_cmd_idx = 1
         for cmd in cfg_cmds:
-            time.sleep(0.005)
-            cmd_bytes = bytes(cmd + "\n", "utf-8")
-            if cmd == "closeWifi":
-                # 对关闭wifi做特殊超时处理
-                ret, msg_detail = self.communicate(id_485, CMD_485_OTA, cmd_bytes, timeout=5)
-            else:
-                ret, msg_detail = self.communicate(id_485, CMD_485_OTA, cmd_bytes, timeout=self.comm_timeout)
-            if not ret:
-                ret_desc += cmd + " : no data received\r\n"
-            elif msg_detail.response != 0x01:
-                ret_desc += cmd + " : %02X" % msg_detail.response + "\r\n"
-            smokesignal.emit('progress_rate_signal',id_485, PROGRESS_TYPE_CFG, int(cur_cmd_idx * 100 / len(cfg_cmds)))
-            cur_cmd_idx += 1
+            if cmd != '':
+                time.sleep(0.005)
+                cmd_bytes = bytes(cmd + "\n", "utf-8")
+                if cmd == "closeWifi":
+                    # 对关闭wifi做特殊超时处理
+                    ret, msg_detail = self.communicate(id_485, CMD_485_OTA, cmd_bytes, timeout=5)
+                else:
+                    ret, msg_detail = self.communicate(id_485, CMD_485_OTA, cmd_bytes, timeout=self.comm_timeout)
+                if not ret:
+                    ret_desc += cmd + " : no data received\r\n"
+                elif msg_detail.response != 0x01:
+                    ret_desc += cmd + " : %02X" % msg_detail.response + "\r\n"
+                smokesignal.emit('progress_rate_signal',id_485, PROGRESS_TYPE_CFG, int(cur_cmd_idx * 100 / len(cfg_cmds)))
+                cur_cmd_idx += 1
         smokesignal.emit('progress_result_signal',id_485, PROGRESS_TYPE_CFG, ret_desc)
 
     def __firm_update_one(self, id_485, firm_path):

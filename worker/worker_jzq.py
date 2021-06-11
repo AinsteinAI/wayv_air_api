@@ -29,9 +29,10 @@ from xmodem import XMODEM
 import socket
 from worker.worker_base import *
 import datetime
+import threading
 
 
-class LineThread(QThread):
+class LineThread(Thread):
 
     def __init__(self, ip_port, line_id, tcp_handler, radar_timeout=1, comm_timeout=0.2, xmodem1k=False):
         super(LineThread, self).__init__()
@@ -478,7 +479,7 @@ class JzqTCPHandler(socketserver.BaseRequestHandler):
         WorkerJzq.queue_radar_disconnect.put(self.ip_port)
 
 
-class JzqTCPServer(QThread):
+class JzqTCPServer(Thread):
     def __init__(self, server):
         super(JzqTCPServer, self).__init__()
         self.server = server

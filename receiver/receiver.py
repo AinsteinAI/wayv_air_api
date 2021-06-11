@@ -18,7 +18,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 Contact: hi@ainstein.ai
  '''
-from PyQt5 import QtCore
 from threading import * 
 import logging
 from model.project import GI

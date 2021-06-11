@@ -21,7 +21,6 @@ Contact: hi@ainstein.ai
 import struct
 from model.target import Target, DebugTarget, DetailTarget, TLVCloudPoint, TLVTargetPoint, TLVTargrtIndex
 from model.project import GI, global_translator
-from PyQt5.QtCore import QLocale
 
 CMD_485_VERSION = 0x12
 CMD_485_TARGET = 0x02

@@ -110,6 +110,7 @@ class Wayv_Air_API():
             smokesignal.on('progress_result_signal', self.print_result)
             smokesignal.on('progress_rate_signal', self.print_progress)
             smokesignal.on('client_exit_signal', self.dummy_radar_out)
+            self.receiver.daemon = True
             self.receiver.start()
 
             # In RS485 mode, the user has to manually add a radar to the GUI; this is analogous to that
@@ -123,12 +124,11 @@ class Wayv_Air_API():
             print(result)  # not sure what to do with this
 
     def print_progress(self, id, kind, rate):
-        if self.verbose:
-            if rate < 100:
-                p_end = '\r'
-            else:
-                p_end = '\n'
-            print(" Progress:", rate, "%", end = p_end)
+        if rate < 100:
+            p_end = '\r'
+        else:
+            p_end = '\n'
+        print(" Progress:", rate, "%", end = p_end)
         self.radars[id].progress = rate  # could be polled by the application
 
     def dummy_radar_out(self):
@@ -196,6 +196,7 @@ class Wayv_Air_API():
             self.radars[id].radar_config.cmd_count = msg.cmd_count
             self.radars[id].radar_config.cmds = msg.cmds.split('\n')
             self.radars[id].radar_config_recvd = True
+            smokesignal.emit('config_ready')
 
         elif isinstance(msg, MsgTlv):
             call_pcl_cb = False

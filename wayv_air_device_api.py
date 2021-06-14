@@ -128,7 +128,7 @@ class Wayv_Air_API():
             p_end = '\r'
         else:
             p_end = '\n'
-        print(" Progress:", rate, "%", end = p_end)
+        print("Progress:", rate, "%", end = p_end)
         self.radars[id].progress = rate  # could be polled by the application
 
     def dummy_radar_out(self):
@@ -234,7 +234,7 @@ class Wayv_Air_API():
     def send_config(self, cfg_filter, cmds):
         self.radars[cfg_filter].progress = 0
         self.radars[cfg_filter].ready = False
-        print("Updating configuration for", cfg_filter)
+        print("Updating configuration for Wayv Air ID ", cfg_filter)
         self.receiver.cfg_config(cmds, cfg_filter)
 
     def update_firmware(self, id, file):

@@ -237,24 +237,29 @@ if __name__ == "__main__":
             elif sys.argv[i] == "-net":
                 new_comm_config = True
                 comm_file = sys.argv[i+1]
+                #Remove any potential whitespace that would cause os.path.exists to be false
+                comm_file = comm_file.strip()
                 if not os.path.exists(comm_file) or comm_file.split('.')[-1] != 'net':
                     print("Error: please specify a path to a .net file")
                     sys.exit(1)
             elif sys.argv[i] == "-cfg":
                 new_param_config = True
                 param_file = sys.argv[i+1]
+                param_file = param_file.strip()
                 if not os.path.exists(param_file) or param_file.split('.')[-1] != 'cfg':
                     print("Error: please specify a path to a .cfg file")
                     sys.exit(1)
             elif sys.argv[i] == "-fw":
                 new_firmware = True
                 fw_path = sys.argv[i+1]
+                fw_path = fw_path.strip()
                 if not os.path.exists(fw_path) or fw_path.split('.')[-1] != 'bin':
                     print("Error: please specify a path to a .bin file")
                     sys.exit(1)
             elif sys.argv[i] == "-sbl":
                 new_sbl = True
                 sbl_path = sys.argv[i+1]
+                sbl_path = sbl_path.strip()
                 if not os.path.exists(sbl_path) or sbl_path.split('.')[-1] != 'bin':
                     print("Error: Please specify a path to a .bin file")
                     sys.exit(1)

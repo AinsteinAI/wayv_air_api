@@ -146,6 +146,7 @@ class Worker485(WorkerBase):
                         ret, msg_detail = self.communicate(id_485, CMD_485_VERSION, bytes(), timeout=self.radar_timeout)
                         if ret:
                             smokesignal.emit('msg_signal',id_485, msg_detail)
+                            smokesignal.emit('config_ready')
                             ds.set_radar()
                 if self.cloud_mode:
                     data = self.recv(512)

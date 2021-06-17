@@ -131,22 +131,22 @@ def supervisor():
     if len(query_config) > 0:
         id = query_config.pop(0)
         wayv_air.query_config(id)  # the API only support querying one radar at a time
-    elif len(comm_config) > 0:
+    if len(comm_config) > 0:
         id = comm_config.pop(0)
         wayv_air.modify_comm_config(id, comm_file)  # only the first radar in this example
         if id not in query_config:
             query_config.append(id)
-    elif len(param_config) > 0:
+    if len(param_config) > 0:
         id = param_config.pop(0)
         wayv_air.modify_param_config(id, param_file)  # only the first radar in this example
         if id not in query_config:
             query_config.append(id)
-    elif len(firmware_up) > 0:
+    if len(firmware_up) > 0:
         id = firmware_up.pop(0)
         if id not in query_config:
             query_config.append(id)
         wayv_air.update_firmware(id, fw_path)
-    elif len(sbl_up) > 0:
+    if len(sbl_up) > 0:
         id = sbl_up.pop(0)
         if id not in query_config:
             query_config.append(id)

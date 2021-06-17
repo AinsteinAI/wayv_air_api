@@ -311,4 +311,7 @@ if __name__ == "__main__":
     #Initialize signal watcher for config 
     smokesignal.on('config_ready',supervisor)
     #Join the receiver thread to main thread for better handling of ctrl+c signal
-    wayv_air.receiver.join()
+    try:
+        wayv_air.receiver.join()
+    except Exception:
+        sys.exit()

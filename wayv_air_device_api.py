@@ -18,9 +18,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 Contact: hi@ainstein.ai
  '''
 
-from PyQt5.QtCore import *
-from PyQt5.QtWidgets import *
-from PyQt5 import QtTest
+import time
+import smokesignal 
 import datetime
 import copy
 import os
@@ -107,10 +106,11 @@ class Wayv_Air_API():
                 self.receiver = None
                 return
             # set up receiver thread
-            self.receiver.msg_signal.connect(self.new_msg)
-            self.receiver.progress_result_signal.connect(self.print_result)
-            self.receiver.progress_rate_signal.connect(self.print_progress)
-            self.receiver.client_exit_signal.connect(self.dummy_radar_out)
+            smokesignal.on('msg_signal', self.new_msg)
+            smokesignal.on('progress_result_signal', self.print_result)
+            smokesignal.on('progress_rate_signal', self.print_progress)
+            smokesignal.on('client_exit_signal', self.dummy_radar_out)
+            self.receiver.daemon = True
             self.receiver.start()
 
             # In RS485 mode, the user has to manually add a radar to the GUI; this is analogous to that
@@ -124,12 +124,11 @@ class Wayv_Air_API():
             print(result)  # not sure what to do with this
 
     def print_progress(self, id, kind, rate):
-        if self.verbose:
-            if rate < 100:
-                p_end = '\r'
-            else:
-                p_end = '\n'
-            print(" Progress:", rate, "%", end = p_end)
+        if rate < 100:
+            p_end = '\r'
+        else:
+            p_end = '\n'
+        print("Progress:", rate, "%", end = p_end)
         self.radars[id].progress = rate  # could be polled by the application
 
     def dummy_radar_out(self):
@@ -197,6 +196,7 @@ class Wayv_Air_API():
             self.radars[id].radar_config.cmd_count = msg.cmd_count
             self.radars[id].radar_config.cmds = msg.cmds.split('\n')
             self.radars[id].radar_config_recvd = True
+            smokesignal.emit('config_ready')
 
         elif isinstance(msg, MsgTlv):
             call_pcl_cb = False
@@ -234,7 +234,7 @@ class Wayv_Air_API():
     def send_config(self, cfg_filter, cmds, clutter_params=None):
         self.radars[cfg_filter].progress = 0
         self.radars[cfg_filter].ready = False
-        print("Updating configuration for", cfg_filter)
+        print("Updating configuration for Wayv Air ID ", cfg_filter)
         self.receiver.cfg_config(cmds, cfg_filter)
         #Since clutter filter parameters may or may not be in config
         #give them default argument of None
@@ -253,7 +253,6 @@ class Wayv_Air_API():
 
             else:
                 print("Error: please specify a valid path to the firmware .bin file")
-    
     def update_sbl(self, id, file):
         if self.receiver is None:
             print("Error: No radar is connected; cannot update SBL")
@@ -275,7 +274,7 @@ class Wayv_Air_API():
         self.radars[id].comm_config_recvd = False
         self.query_config(id)
         while self.radars[id].comm_config_recvd == False:
-            QtTest.QTest.qWait(100)  # wait some ms for the fresh config read
+            time.sleep(0.1)  # wait some ms for the fresh config read
         if ((self.radars[id].comm_config.wifi_mode != ROUTER and self.radars[id].comm_config.wifi_mode != DIRECT)
             and self.radars[id].comm_config.dev_id == ''):
             print("Error: invalid comm. config read; not sending new config")
@@ -317,6 +316,6 @@ class Wayv_Air_API():
     def enable_pcl(self, id):
         cmd = 'workMode 2 0'  # only allow temporary changes (0)
         self.send_config(id, cmd)
-        QtTest.QTest.qWait(1500)  # wait for the config to finish before changing modes
+        time.sleep(1.5)  # wait for the config to finish before changing modes
         if self.receiver is not None:
             self.receiver.cloud_mode = True

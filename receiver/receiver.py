@@ -18,28 +18,18 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 Contact: hi@ainstein.ai
  '''
-from PyQt5 import QtCore
+from threading import * 
 import logging
 from model.project import GI
+import smokesignal
 
 logger = logging.getLogger(GI.log_main_module + '.' + __name__)
 logger.setLevel(GI.log_level)
 
-class Receiver(QtCore.QThread):
+class Receiver(Thread):
     """
     数据接收器，基类，子类需要重写各函数（prepare，destroy，recv_data）
     """
-
-    # 数据信号
-    data_signal = QtCore.pyqtSignal(str, object)
-    # cfg下发状态信号
-    cfg_result_signal = QtCore.pyqtSignal(str, str)
-    cfg_progress_signal = QtCore.pyqtSignal(str, int)
-    # 固件更新状态信号
-    firm_result_signal = QtCore.pyqtSignal(str, str)
-    firm_progress_signal = QtCore.pyqtSignal(str, int)
-    # 客户端退出信号
-    client_exit_signal = QtCore.pyqtSignal(str)
 
     def __init__(self):
         """

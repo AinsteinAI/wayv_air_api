@@ -17,13 +17,15 @@ Copyright 2020, Ainstein Inc. All Rights Reserved
 
 import sys
 import signal
+import threading
+import smokesignal
 import time
 import copy
 import os
-from PyQt5.QtCore import *
-from PyQt5.QtWidgets import *
-from wayv_air_device_api import *
-
+from worker.msg.test_msg import TestMsgFunc
+from worker.msg.msg_tlv import MsgTlv
+from worker.msg.msg_detail import MsgConfig, MsgDetail, MsgParam, MsgTarget, MsgTargetObject, MsgVersion
+from wayv_air_device_api import Wayv_Air_API
 def radar_con_callback(id):
     global new_firmware, query_config, comm_config, param_config, firmware_up, enbl_pcl, new_sbl, sbl_up
     if id not in radars_seen:
@@ -129,22 +131,22 @@ def supervisor():
     if len(query_config) > 0:
         id = query_config.pop(0)
         wayv_air.query_config(id)  # the API only support querying one radar at a time
-    elif len(comm_config) > 0:
+    if len(comm_config) > 0:
         id = comm_config.pop(0)
         wayv_air.modify_comm_config(id, comm_file)  # only the first radar in this example
         if id not in query_config:
             query_config.append(id)
-    elif len(param_config) > 0:
+    if len(param_config) > 0:
         id = param_config.pop(0)
         wayv_air.modify_param_config(id, param_file)  # only the first radar in this example
         if id not in query_config:
             query_config.append(id)
-    elif len(firmware_up) > 0:
+    if len(firmware_up) > 0:
         id = firmware_up.pop(0)
         if id not in query_config:
             query_config.append(id)
         wayv_air.update_firmware(id, fw_path)
-    elif len(sbl_up) > 0:
+    if len(sbl_up) > 0:
         id = sbl_up.pop(0)
         if id not in query_config:
             query_config.append(id)
@@ -162,8 +164,7 @@ def sigint_handler(*args):
         radar_list.append(r)
     for r in radar_list:
         wayv_air.radar_disconnect(r) # disconnect the radar before quitting
-    QApplication.quit()
-    app.quit()
+    sys.exit()
 
 if __name__ == "__main__":
     MODE_485 = 0
@@ -237,24 +238,29 @@ if __name__ == "__main__":
             elif sys.argv[i] == "-net":
                 new_comm_config = True
                 comm_file = sys.argv[i+1]
+                #Remove any potential whitespace that would cause os.path.exists to be false
+                comm_file = comm_file.strip()
                 if not os.path.exists(comm_file) or comm_file.split('.')[-1] != 'net':
                     print("Error: please specify a path to a .net file")
                     sys.exit(1)
             elif sys.argv[i] == "-cfg" or sys.argv[i] == '-clutter':
                 new_param_config = True
                 param_file = sys.argv[i+1]
+                param_file = param_file.strip()
                 if not os.path.exists(param_file) or param_file.split('.')[-1] != 'cfg':
                     print("Error: please specify a path to a .cfg file")
                     sys.exit(1)
             elif sys.argv[i] == "-fw":
                 new_firmware = True
                 fw_path = sys.argv[i+1]
+                fw_path = fw_path.strip()
                 if not os.path.exists(fw_path) or fw_path.split('.')[-1] != 'bin':
                     print("Error: please specify a path to a .bin file")
                     sys.exit(1)
             elif sys.argv[i] == "-sbl":
                 new_sbl = True
                 sbl_path = sys.argv[i+1]
+                sbl_path = sbl_path.strip()
                 if not os.path.exists(sbl_path) or sbl_path.split('.')[-1] != 'bin':
                     print("Error: Please specify a path to a .bin file")
                     sys.exit(1)
@@ -269,7 +275,6 @@ if __name__ == "__main__":
     if enbl_pcl and (new_firmware or new_param_config or new_comm_config or new_sbl):
         print("Error: updates are not supported in point cloud mode")
         sys.exit(1)
-
     '''
     Start user-defined code block.
     User should initialize necessary variables, etc. here.
@@ -290,16 +295,24 @@ if __name__ == "__main__":
     # so that ctrl+c will disconnect the radar and kill the program
     signal.signal(signal.SIGINT, sigint_handler)
 
-    # The QApplication must be started before anything can be sent to, or received from, the Wayv Air
-    app = QApplication(sys.argv)
-    timer = QTimer()
-    timer.start(2000)
-    timer.timeout.connect(supervisor)
+    #Run supervisor on same timer as before to initialize necessary 
+    #config lists, firmware updates, etc
+
     wayv_air = Wayv_Air_API(targ_callback, radar_con_callback, pcl_callback,
                             (v_level >= 3), comm_mode, serial_port, serial_baud,
                             rs485_id, wifi_ip, target_detail, wifi_port)
+                            
+    timer = threading.Timer(2,supervisor)
+    timer.start()
     if v_level >= 1:
         print("WAYV Air API version:", wayv_air.version)
     wayv_air.radar_connect()
     time.sleep(2)  # delay long enough for the radar to connect over WiFi
-    sys.exit(app.exec_())
+
+    #Initialize signal watcher for config 
+    smokesignal.on('config_ready',supervisor)
+    #Join the receiver thread to main thread for better handling of ctrl+c signal
+    try:
+        wayv_air.receiver.join()
+    except Exception:
+        sys.exit()

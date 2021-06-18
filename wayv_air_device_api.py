@@ -309,7 +309,7 @@ class Wayv_Air_API():
                 filter_param.append(line)
             cmds += line
         #Only send clutter filter parameters if the list isn't empty
-        if not filter_param:
+        if filter_param:
          self.send_config(id, cmds, filter_param)
         else:
             self.send_config(id, cmds)

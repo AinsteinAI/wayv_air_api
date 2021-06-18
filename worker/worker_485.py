@@ -191,7 +191,7 @@ class Worker485(WorkerBase):
                     time.sleep(5)
                 # 杂波滤除 CLUTTER FILTER
                 if self.filter_region is not None:
-                    self.progress_result_signal.emit("", PROGRESS_TYPE_CFG, ";".join([x for x in self.filter_filter]))
+                    smokesignal.emit('progress_result_signal', id_485, PROGRESS_TYPE_CFG, ";".join([x for x in self.filter_filter]))
                     for id_485, ds in self.device_states.items():
                         if id_485 in self.filter_filter:
                             self.__filter_config_one(id_485)
@@ -274,7 +274,7 @@ class Worker485(WorkerBase):
                 ret_desc += cmd + " : %02X" % msg_detail.response + "\r\n"
             smokesignal.emit('progress_rate_signal',id_485, PROGRESS_TYPE_CFG, int(cur_cmd_idx * 100 / len(cfg_cmds)))
             cur_cmd_idx += 1
-        self.progress_result_signal.emit(id_485, PROGRESS_TYPE_CFG, ret_desc)
+        smokesignal.emit('progress_result_signal',id_485, PROGRESS_TYPE_CFG, ret_desc)
         
     def __filter_config_one(self, id_485): #clutter filter executor
         ret_desc = ""
@@ -282,21 +282,21 @@ class Worker485(WorkerBase):
         targets = []
         ret, msg_detail = self.communicate(id_485, CMD_485_TARGET, timeout=self.comm_timeout)
         if ret:
-            self.progress_rate_signal.emit(id_485, PROGRESS_TYPE_CFG, 20)
+            smokesignal.emit('progress_rate_signal',id_485, PROGRESS_TYPE_CFG, 20)
             targets = msg_detail.tags[0].targets
         else:
             ret_desc = "目标获取失败"
-            self.progress_result_signal.emit(id_485, PROGRESS_TYPE_CFG, ret_desc)
+            smokesignal.emit('progress_result_signal',id_485, PROGRESS_TYPE_CFG, ret_desc)
             return
         # 2. 查配置
         cfgs = ""
         ret, msg_detail = self.communicate(id_485, CMD_485_PARAM, timeout=self.comm_timeout)
         if ret:
-            self.progress_rate_signal.emit(id_485, PROGRESS_TYPE_CFG, 40)
+            smokesignal.emit('progress_rate_signal',id_485, PROGRESS_TYPE_CFG, 40)
             cfgs = msg_detail.cmds
         else:
             ret_desc = "获取CFG参数失败"
-            self.progress_result_signal.emit(id_485, PROGRESS_TYPE_CFG, ret_desc)
+            smokesignal.emit('progress_result_signal',id_485, PROGRESS_TYPE_CFG, ret_desc)
             return
         # 3. 改配置 clutter filter
         cmds = cfgs.split("\n")

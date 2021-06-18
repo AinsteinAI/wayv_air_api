@@ -208,7 +208,8 @@ if __name__ == "__main__":
                 " -fw: path to firmware .bin file to be loaded\n"
                 " -sbl: path to the bootloader .bin file to be loaded\n"
                 " -pcl: enable point cloud output from the Wayv Air\n"
-                " -baud: serial baud rate; must match what the Wayv Air is already set to")
+                " -baud: serial baud rate; must match what the Wayv Air is already set to\n"
+                " -clutter: Enable clutter filter based on the SceneryParam options in config file\n")
 
     if len(sys.argv) > 1:
         for i in range(1,len(sys.argv)):
@@ -239,7 +240,7 @@ if __name__ == "__main__":
                 if not os.path.exists(comm_file) or comm_file.split('.')[-1] != 'net':
                     print("Error: please specify a path to a .net file")
                     sys.exit(1)
-            elif sys.argv[i] == "-cfg":
+            elif sys.argv[i] == "-cfg" or sys.argv[i] == '-clutter':
                 new_param_config = True
                 param_file = sys.argv[i+1]
                 if not os.path.exists(param_file) or param_file.split('.')[-1] != 'cfg':

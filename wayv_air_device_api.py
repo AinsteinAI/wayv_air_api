@@ -231,11 +231,15 @@ class Wayv_Air_API():
                 self.t_callback_fcn(id)
 
 
-    def send_config(self, cfg_filter, cmds):
+    def send_config(self, cfg_filter, cmds, clutter_params=None):
         self.radars[cfg_filter].progress = 0
         self.radars[cfg_filter].ready = False
         print("Updating configuration for", cfg_filter)
         self.receiver.cfg_config(cmds, cfg_filter)
+        #Since clutter filter parameters may or may not be in config
+        #give them default argument of None
+        if clutter_params is not None:
+            self.receiver.filter_config(clutter_params, cfg_filter)
 
     def update_firmware(self, id, file):
         if self.receiver is None:
@@ -299,9 +303,16 @@ class Wayv_Air_API():
     def modify_param_config(self, id, file):
         # Open the .cfg file and load the modified paramters
         cmds = ''
+        filter_param = []
         for line in open(file):
+            if 'SceneryParam' in line:
+                filter_param.append(line)
             cmds += line
-        self.send_config(id, cmds)
+        #Only send clutter filter parameters if the list isn't empty
+        if not filter_param:
+         self.send_config(id, cmds, filter_param)
+        else:
+            self.send_config(id, cmds)
 
     def enable_pcl(self, id):
         cmd = 'workMode 2 0'  # only allow temporary changes (0)

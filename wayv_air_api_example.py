@@ -214,63 +214,67 @@ if __name__ == "__main__":
 
     if len(sys.argv) > 1:
         for i in range(1,len(sys.argv)):
-            if sys.argv[i] == "-v":
-                v_level = 1
-            elif sys.argv[i] == "-vv":
-                v_level = 2
-            elif sys.argv[i] == "-vvv":
-                v_level = 3
-            elif sys.argv[i] == "-ip":
-                wifi_ip = sys.argv[i+1]
-                comm_mode = MODE_WIFI
-            elif sys.argv[i] == "-wifi_port":
-                wifi_port = int(sys.argv[i+1])
-            elif sys.argv[i] == "-vel":
-                velocity_enable = 1
-                target_detail = 1
-            elif sys.argv[i] == "-point_num":
-                point_num_enable = 1
-                target_detail = 1
-            elif sys.argv[i] == "-p":
-                serial_port = sys.argv[i+1]
-            elif sys.argv[i] == "-rid":
-                rs485_id = sys.argv[i+1]
-            elif sys.argv[i] == "-net":
-                new_comm_config = True
-                comm_file = sys.argv[i+1]
-                #Remove any potential whitespace that would cause os.path.exists to be false
-                comm_file = comm_file.strip()
-                if not os.path.exists(comm_file) or comm_file.split('.')[-1] != 'net':
-                    print("Error: please specify a path to a .net file")
-                    sys.exit(1)
-            elif sys.argv[i] == "-cfg" or sys.argv[i] == '-clutter':
-                new_param_config = True
-                param_file = sys.argv[i+1]
-                param_file = param_file.strip()
-                if not os.path.exists(param_file) or param_file.split('.')[-1] != 'cfg':
-                    print("Error: please specify a path to a .cfg file")
-                    sys.exit(1)
-            elif sys.argv[i] == "-fw":
-                new_firmware = True
-                fw_path = sys.argv[i+1]
-                fw_path = fw_path.strip()
-                if not os.path.exists(fw_path) or fw_path.split('.')[-1] != 'bin':
-                    print("Error: please specify a path to a .bin file")
-                    sys.exit(1)
-            elif sys.argv[i] == "-sbl":
-                new_sbl = True
-                sbl_path = sys.argv[i+1]
-                sbl_path = sbl_path.strip()
-                if not os.path.exists(sbl_path) or sbl_path.split('.')[-1] != 'bin':
-                    print("Error: Please specify a path to a .bin file")
-                    sys.exit(1)
-            elif sys.argv[i] == "-pcl":
-                enbl_pcl = True
-            elif sys.argv[i] == "-baud":
-                serial_baud = int(sys.argv[i+1])
-            elif (sys.argv[i] == "-h") or (sys.argv[i] == "--help"):
-                print(help_str)
-                sys.exit(0)
+            try:
+                if sys.argv[i] == "-v":
+                    v_level = 1
+                elif sys.argv[i] == "-vv":
+                    v_level = 2
+                elif sys.argv[i] == "-vvv":
+                    v_level = 3
+                elif sys.argv[i] == "-ip":
+                    wifi_ip = sys.argv[i+1]
+                    comm_mode = MODE_WIFI
+                elif sys.argv[i] == "-wifi_port":
+                    wifi_port = int(sys.argv[i+1])
+                elif sys.argv[i] == "-vel":
+                    velocity_enable = 1
+                    target_detail = 1
+                elif sys.argv[i] == "-point_num":
+                    point_num_enable = 1
+                    target_detail = 1
+                elif sys.argv[i] == "-p":
+                    serial_port = sys.argv[i+1]
+                elif sys.argv[i] == "-rid":
+                    rs485_id = sys.argv[i+1]
+                elif sys.argv[i] == "-net":
+                    new_comm_config = True
+                    comm_file = sys.argv[i+1]
+                    #Remove any potential whitespace that would cause os.path.exists to be false
+                    comm_file = comm_file.strip()
+                    if not os.path.exists(comm_file) or comm_file.split('.')[-1] != 'net':
+                        print("Error: please specify a path to a .net file")
+                        sys.exit(1)
+                elif sys.argv[i] == "-cfg" or sys.argv[i] == '-clutter':
+                    new_param_config = True
+                    param_file = sys.argv[i+1]
+                    param_file = param_file.strip()
+                    if not os.path.exists(param_file) or param_file.split('.')[-1] != 'cfg':
+                        print("Error: please specify a path to a .cfg file")
+                        sys.exit(1)
+                elif sys.argv[i] == "-fw":
+                    new_firmware = True
+                    fw_path = sys.argv[i+1]
+                    fw_path = fw_path.strip()
+                    if not os.path.exists(fw_path) or fw_path.split('.')[-1] != 'bin':
+                        print("Error: please specify a path to a .bin file")
+                        sys.exit(1)
+                elif sys.argv[i] == "-sbl":
+                    new_sbl = True
+                    sbl_path = sys.argv[i+1]
+                    sbl_path = sbl_path.strip()
+                    if not os.path.exists(sbl_path) or sbl_path.split('.')[-1] != 'bin':
+                        print("Error: Please specify a path to a .bin file")
+                        sys.exit(1)
+                elif sys.argv[i] == "-pcl":
+                    enbl_pcl = True
+                elif sys.argv[i] == "-baud":
+                    serial_baud = int(sys.argv[i+1])
+                elif (sys.argv[i] == "-h") or (sys.argv[i] == "--help"):
+                    print(help_str)
+                    sys.exit(0)
+            except IndexError as e:
+                print("Exception occurred when processing arguments: ", e)
+                sys.exit()
 
     if enbl_pcl and (new_firmware or new_param_config or new_comm_config or new_sbl):
         print("Error: updates are not supported in point cloud mode")

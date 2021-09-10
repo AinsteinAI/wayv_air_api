@@ -24,7 +24,7 @@ repo, and NOT in the wayv_air. This version number should increment for any PR
 that changes code in the wayv_air_api repo.
 '''
 VERSION_MAJOR = '1'  # increment this when non-backwards-compatible changes are made
-VERSION_MINOR = '1'  # increment this when backwards-compatible changes are made
+VERSION_MINOR = '2'  # increment this when backwards-compatible changes are made
 VERSION_BF = '0'     # increment this when bugs are fixed
 
 class api_version():

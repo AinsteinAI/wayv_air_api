@@ -23,7 +23,6 @@ import codecs
 import logging
 from sys import platform
 from worker.worker_base import *
-from Language.Translator import global_translator
 
 
 class GI(object):

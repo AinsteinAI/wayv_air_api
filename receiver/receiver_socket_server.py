@@ -21,7 +21,7 @@ Contact: hi@ainstein.ai
 from receiver.receiver import Receiver
 import socket
 import socketserver
-from PyQt5 import QtCore
+import threading
 from queue import Queue
 import time
 from xmodem import XMODEM
@@ -290,7 +290,7 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
         return False
 
 
-class MyTCPServer(QtCore.QThread):
+class MyTCPServer(threading.Thread):
     def __init__(self, server):
         """
         构造函数

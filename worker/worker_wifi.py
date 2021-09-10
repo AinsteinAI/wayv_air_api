@@ -19,7 +19,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 Contact: hi@ainstein.ai
  '''
 import socketserver
-from PyQt5 import QtCore
+import smokesignal
 from queue import Queue
 from xmodem import XMODEM
 import os
@@ -30,6 +30,7 @@ from worker.worker_base import *
 from worker.msg.msg_detail import *
 import socket
 import datetime
+import threading
 
 
 class WifiTCPHandler(socketserver.BaseRequestHandler):
@@ -203,6 +204,68 @@ class WifiTCPHandler(socketserver.BaseRequestHandler):
             cur_cmd_idx += 1
         WorkerWifi.queue_progress_rets.put((self.ip_port, PROGRESS_TYPE_CFG, ret_desc))
 
+    def exec_filter(self): #clutter filter executor 
+        ret_desc = ""
+        # 1. 查目标
+        targets = []
+        self.send(bytes("getTarget\n", "utf-8"))
+        ret, msg_detail = self.get_msg485(CMD_485_TARGET, timeout=self.comm_timeout)
+        if ret:
+            WorkerWifi.queue_progress_rate.put((self.ip_port, PROGRESS_TYPE_CFG, 20))
+            targets = msg_detail.tags[0].targets
+        else:
+            ret_desc = "目标获取失败"
+            WorkerWifi.queue_progress_rets.put((self.ip_port, PROGRESS_TYPE_CFG, ret_desc))
+            return
+        # 2. 查配置
+        cfgs = ""
+        self.send(bytes("getWorkParam\n", "utf-8"))
+        ret, msg_detail = self.get_msg485(CMD_485_PARAM, timeout=self.comm_timeout)
+        if ret:
+            WorkerWifi.queue_progress_rate.put((self.ip_port, PROGRESS_TYPE_CFG, 40))
+            cfgs = msg_detail.cmds
+        else:
+            ret_desc = "获取CFG参数失败"
+            WorkerWifi.queue_progress_rets.put((self.ip_port, PROGRESS_TYPE_CFG, ret_desc))
+            return
+        # 3. 改配置
+        cmds = cfgs.split("\n")
+        new_cmds = []
+        for cmd in cmds:
+            if 'SceneryParam' in cmd:
+                segs = cmd.split(" ")
+                if len(segs) == 7:
+                    # 老语法，统一到新语法，添加0
+                    segs.append("0")
+                if segs[-1] == "0":
+                    new_cmds.append(" ".join(segs))
+                    # 添加杂波点 clutter filter
+                    for t in targets:
+                        new_cmds.append("SceneryParam %f %f %f %f %f %f 1" %
+                                        (t.x + self.filter_region[0], t.x + self.filter_region[1],
+                                         t.y + self.filter_region[2], t.y + self.filter_region[3],
+                                         t.z + self.filter_region[4], t.z + self.filter_region[5]))
+            else:
+                new_cmds.append(cmd)
+        #
+        cur_cmd_idx = 1
+        for cmd in new_cmds:
+            # 发送命令
+            self.send(bytes(cmd + "\n", "utf-8"))
+            if cmd == "closeWifi":
+                # 对关闭wifi做特殊超时处理
+                ret, msg_detail = self.get_msg485(CMD_485_OTA, timeout=5)
+            else:
+                ret, msg_detail = self.get_msg485(CMD_485_OTA, timeout=self.comm_timeout)
+            if not ret:
+                ret_desc += cmd + " : no data received\r\n"
+            elif msg_detail.response != 0x01:
+                ret_desc += cmd + " : %02X" % msg_detail.response + "\r\n"
+            WorkerWifi.queue_progress_rate.put((self.ip_port, PROGRESS_TYPE_CFG,
+                                                40 + int(cur_cmd_idx * 60 / len(new_cmds))))
+            cur_cmd_idx += 1
+        WorkerWifi.queue_progress_rets.put((self.ip_port, PROGRESS_TYPE_CFG, ret_desc))
+
     def update_firmware(self):
         ret_desc = ""
         # 1. 发送ReadyUpdate
@@ -303,7 +366,7 @@ class WifiTCPHandler(socketserver.BaseRequestHandler):
         WorkerWifi.queue_progress_rets.put((self.ip_port, PROGRESS_TYPE_SBL, ret_desc))
 
 
-class WifiTCPServer(QtCore.QThread):
+class WifiTCPServer(Thread):
     def __init__(self, server):
         """
         构造函数
@@ -421,7 +484,7 @@ class WorkerWifi(WorkerBase):
                 # 消息通知
                 while not WorkerWifi.queue_msg.empty():
                     p = WorkerWifi.queue_msg.get()
-                    self.msg_signal.emit(p[0], p[1])
+                    smokesignal.emit('msg_signal', p[0], p[1])
                 # 发送cfg配置
                 if self.cfg_cmds is not None:
                     descs = []
@@ -431,6 +494,16 @@ class WorkerWifi(WorkerBase):
                             descs.append(desc)
                     self.cfg_cmds = None
                     self.queue_progress_rets.put(("", PROGRESS_TYPE_CFG, ";".join(descs)))
+                # 杂波滤除 CLUTTER FILTER
+                if self.filter_region is not None:
+                    descs = []
+                    for desc, tcp_client in WorkerWifi.dict_clients.items():
+                        if desc in self.filter_filter:
+                            tcp_client.filter_region = self.filter_region
+                            descs.append(desc)
+                    self.filter_region = None
+                    self.queue_progress_rets.put(("", PROGRESS_TYPE_CFG, ";".join(descs)))
+
                 # update firmware
                 if self.firm_path is not None:
                     descs = []
@@ -458,14 +531,14 @@ class WorkerWifi(WorkerBase):
                 #
                 while not WorkerWifi.queue_progress_rate.empty():
                     p = WorkerWifi.queue_progress_rate.get()
-                    self.progress_rate_signal.emit(p[0], p[1], p[2])
+                    smokesignal.emit('progress_rate_signal',p[0], p[1], p[2])
                 while not WorkerWifi.queue_progress_rets.empty():
                     p = WorkerWifi.queue_progress_rets.get()
-                    self.progress_result_signal.emit(p[0], p[1], p[2])
+                    smokesignal.emit('progress_result_signal',p[0], p[1], p[2])
                 # 客户端退出通知
                 while not WorkerWifi.queue_radar_disconnect.empty():
                     p = WorkerWifi.queue_radar_disconnect.get()
-                    self.client_exit_signal.emit(p)
+                    smokesignal.emit('client_exit_signal',p)
             except Exception as e:
                 print(e)
         self.kick_all_client()

@@ -18,8 +18,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 Contact: hi@ainstein.ai
  '''
-from PyQt5.QtCore import *
 import time
+from threading import *
 
 
 MODE_485 = 0
@@ -36,16 +36,7 @@ ID_DEL = 2
 
 
 # 通讯基类
-class WorkerBase(QThread):
-
-    # 客户端退出信号 参数：唯一描述
-    client_exit_signal = pyqtSignal(str)
-    # 参数：唯一描述(ip+id_line+id_485)，消息对象
-    msg_signal = pyqtSignal(str, object)
-    # 结果信号 参数：唯一描述，类型（1 cfg 2 固件），结果（成功为空，失败为描述）
-    progress_result_signal = pyqtSignal(str, int, str)
-    # 进度信号 参数：唯一描述，类型（1 cfg 2 固件），百分比（0-100）
-    progress_rate_signal = pyqtSignal(str, int, int)
+class WorkerBase(Thread):
 
     def __init__(self):
         super(WorkerBase, self).__init__()
@@ -60,12 +51,15 @@ class WorkerBase(QThread):
         # SBL路径 过滤器
         self.sbl_path = None
         self.sbl_filter = None
+        # 杂波滤除 clutter filter
+        self.filter_region = None
+        self.filter_filter = None
         # 查询 id
         self.query_desc = None
 
     def end(self):
         self.is_run = False
-        self.wait(msecs=10000)
+        time.sleep(1)
         return True
 
     def run(self):

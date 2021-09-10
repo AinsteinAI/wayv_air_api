@@ -19,6 +19,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 Contact: hi@ainstein.ai
  '''
 import serial
+import smokesignal
 from worker.worker_base import *
 from worker.msg.msg_485 import *
 from worker.msg.msg_tlv import *
@@ -124,6 +125,10 @@ class Worker485(WorkerBase):
     def cfg_config(self, cfg_cmds, cfg_filter):
         self.cfg_cmds = cfg_cmds.split("\n")
         self.cfg_filter = cfg_filter
+    
+    def filter_config(self, filter_region, filter_filter):
+        self.filter_region = filter_region
+        self.filter_filter = filter_filter
 
     def firm_update(self, firm_path, firm_filter):
         self.firm_path = firm_path
@@ -144,7 +149,8 @@ class Worker485(WorkerBase):
                     if ds.need_get_version():
                         ret, msg_detail = self.communicate(id_485, CMD_485_VERSION, bytes(), timeout=self.radar_timeout)
                         if ret:
-                            self.msg_signal.emit(id_485, msg_detail)
+                            smokesignal.emit('msg_signal',id_485, msg_detail)
+                            smokesignal.emit('config_ready')
                             ds.set_radar()
                 if self.cloud_mode:
                     data = self.recv(512)
@@ -152,7 +158,7 @@ class Worker485(WorkerBase):
                         self.cloud_cache += data
                         self.cloud_cache, msg_tlvs = MsgTlv.parse_data(self.cloud_cache)
                         for msg_tlv in msg_tlvs:
-                            self.msg_signal.emit(id_485, msg_tlv)
+                            smokesignal.emit('msg_signal',id_485, msg_tlv)
                     # 点云模式 不做任何485协议交互
                     continue
                 # 检测目标
@@ -163,30 +169,38 @@ class Worker485(WorkerBase):
                         elif self.detail_target:
                             ret, msg_detail = self.communicate(id_485, CMD_485_DETAIL_TARGET, timeout=self.comm_timeout)
                         else:
-                            ret, msg_detail = self.communicate(id_485, CMD_485_TARGET, timeout=self.comm_timeout)
+                            ret, msg_detail = self.communicate(id_485, CMD_485_TARGET, timeout=self.comm_timeout)                            
                         if ret:
-                            self.msg_signal.emit(id_485, msg_detail)
+                            smokesignal.emit('msg_signal',id_485, msg_detail)
                             if ds.error_count > 200:
                                 # 从错误状态变正常，让雷达重新获取版本号
                                 ds.reset()
                             ds.error_count = 0
                         else:
                             if ds.error_count == 200:
-                                # 正常变错误，需要通知界面
-                                self.client_exit_signal.emit(id_485)
+                               smokesignal.emit('client_exit_signal',id_485)
                             ds.error_count += 1
                 # cfg配置
                 if self.cfg_cmds is not None:
-                    self.progress_result_signal.emit("", PROGRESS_TYPE_CFG, ";".join([x for x in self.cfg_filter]))
+                    smokesignal.emit('progress_result_signal', id_485, PROGRESS_TYPE_CFG, ";".join([x for x in self.cfg_filter]))
                     for id_485, ds in self.device_states.items():
                         if id_485 in self.cfg_filter:
                             self.__cfg_config_one(id_485, self.cfg_cmds)
                             ds.reset()
                     self.cfg_cmds = None
                     time.sleep(5)
+                # 杂波滤除 CLUTTER FILTER
+                if self.filter_region is not None:
+                    smokesignal.emit('progress_result_signal', id_485, PROGRESS_TYPE_CFG, ";".join([x for x in self.filter_filter]))
+                    for id_485, ds in self.device_states.items():
+                        if id_485 in self.filter_filter:
+                            self.__filter_config_one(id_485)
+                            ds.reset()
+                    self.filter_region = None
+                    time.sleep(5)
                 # 固件升级
                 if self.firm_path is not None:
-                    self.progress_result_signal.emit("", PROGRESS_TYPE_FIRM, ";".join([x for x in self.firm_filter]))
+                    smokesignal.emit('progress_result_signal',id_485, PROGRESS_TYPE_FIRM, ";".join([x for x in self.firm_filter]))
                     for id_485, ds in self.device_states.items():
                         if id_485 in self.firm_filter:
                             self.__firm_update_one(id_485, self.firm_path)
@@ -194,7 +208,7 @@ class Worker485(WorkerBase):
                     self.firm_path = None
                 # SBL升级
                 if self.sbl_path is not None:
-                    self.progress_result_signal.emit("", PROGRESS_TYPE_SBL, ";".join([x for x in self.sbl_filter]))
+                    smokesignal.emit('progress_result_signal',id_485, PROGRESS_TYPE_SBL, ";".join([x for x in self.sbl_filter]))
                     for id_485, ds in self.device_states.items():
                         if id_485 in self.sbl_filter:
                             self.__sbl_update_one(id_485, self.sbl_path)
@@ -206,10 +220,10 @@ class Worker485(WorkerBase):
                         if id_485 == self.query_desc and ds.is_radar():
                             ret, msg_detail = self.communicate(id_485, CMD_485_CONFIG, timeout=self.comm_timeout)
                             if ret:
-                                self.msg_signal.emit(id_485, msg_detail)
+                                smokesignal.emit('msg_signal',id_485, msg_detail)
                             ret, msg_detail = self.communicate(id_485, CMD_485_PARAM, timeout=self.comm_timeout)
                             if ret:
-                                self.msg_signal.emit(id_485, msg_detail)
+                                smokesignal.emit('msg_signal',id_485, msg_detail)
                     self.query_desc = None
         except Exception as e:
             print(e)
@@ -254,13 +268,55 @@ class Worker485(WorkerBase):
                 ret, msg_detail = self.communicate(id_485, CMD_485_OTA, cmd_bytes, timeout=5)
             else:
                 ret, msg_detail = self.communicate(id_485, CMD_485_OTA, cmd_bytes, timeout=self.comm_timeout)
-            if not ret:
+            if not ret and cmd != '':
                 ret_desc += cmd + " : no data received\r\n"
-            elif msg_detail.response != 0x01:
+            elif msg_detail is not None and msg_detail.response != 0x01:
                 ret_desc += cmd + " : %02X" % msg_detail.response + "\r\n"
-            self.progress_rate_signal.emit(id_485, PROGRESS_TYPE_CFG, int(cur_cmd_idx * 100 / len(cfg_cmds)))
+            smokesignal.emit('progress_rate_signal',id_485, PROGRESS_TYPE_CFG, int(cur_cmd_idx * 100 / len(cfg_cmds)))
             cur_cmd_idx += 1
-        self.progress_result_signal.emit(id_485, PROGRESS_TYPE_CFG, ret_desc)
+        smokesignal.emit('progress_result_signal',id_485, PROGRESS_TYPE_CFG, ret_desc)
+        
+    def __filter_config_one(self, id_485): #clutter filter executor
+        ret_desc = ""
+        # 1. 查目标
+        targets = []
+        ret, msg_detail = self.communicate(id_485, CMD_485_TARGET, timeout=self.comm_timeout)
+        if ret:
+            smokesignal.emit('progress_rate_signal',id_485, PROGRESS_TYPE_CFG, 20)
+            targets = msg_detail.tags[0].targets
+        else:
+            ret_desc = "目标获取失败"
+            smokesignal.emit('progress_result_signal',id_485, PROGRESS_TYPE_CFG, ret_desc)
+            return
+        # 2. 查配置
+        cfgs = ""
+        ret, msg_detail = self.communicate(id_485, CMD_485_PARAM, timeout=self.comm_timeout)
+        if ret:
+            smokesignal.emit('progress_rate_signal',id_485, PROGRESS_TYPE_CFG, 40)
+            cfgs = msg_detail.cmds
+        else:
+            ret_desc = "获取CFG参数失败"
+            smokesignal.emit('progress_result_signal',id_485, PROGRESS_TYPE_CFG, ret_desc)
+            return
+        # 3. 改配置 clutter filter
+        cmds = cfgs.split("\n")
+        new_cmds = []
+        for cmd in cmds:
+            if 'SceneryParam' in cmd:
+                segs = cmd.split(" ")
+                if len(segs) == 7:
+                    # 老语法，统一到新语法，添加0
+                    segs.append("0")
+                if segs[-1] == "0":
+                    new_cmds.append(" ".join(segs))
+                    # 添加杂波点 clutter filter
+                    for t in targets:
+                        new_cmds.append("SceneryParam %f %f %f %f %f %f 1" %
+                                        (t.x + self.filter_region[0], t.x + self.filter_region[1],
+                                         t.y + self.filter_region[2], t.y + self.filter_region[3],
+                                         t.z + self.filter_region[4], t.z + self.filter_region[5]))
+            else:
+                new_cmds.append(cmd)
 
     def __firm_update_one(self, id_485, firm_path):
         ret_desc = ""
@@ -275,14 +331,14 @@ class Worker485(WorkerBase):
         if not ret:
             ret_desc = "ReadyUpdate命令未收到响应"
         else:
-            self.progress_rate_signal.emit(id_485, PROGRESS_TYPE_FIRM, 10)
+            smokesignal.emit('progress_rate_signal',id_485, PROGRESS_TYPE_FIRM, 10)
             # 2. 发送Update
             cmd_bytes = bytes("Update\n", "utf-8")
             ret, msg_detail = self.communicate(id_485, CMD_485_OTA, cmd_bytes, timeout=20)
             if not ret or msg_detail.response != 0x22 or msg_detail.crc != 0xcc:
                 ret_desc = "Update命令未收到响应"
             else:
-                self.progress_rate_signal.emit(id_485, PROGRESS_TYPE_FIRM, 20)
+                smokesignal.emit('progress_rate_signal',id_485, PROGRESS_TYPE_FIRM, 20)
                 # 3. XModem协议传输文件
                 file = open(firm_path, "rb")
                 file_size = os.path.getsize(firm_path)
@@ -301,7 +357,7 @@ class Worker485(WorkerBase):
                     return self.send(bs)
 
                 def callback_func(total_packets, success_count, error_count):
-                    self.progress_rate_signal.emit(id_485, PROGRESS_TYPE_FIRM, 20 + int(success_count * 70 / packet_num))
+                    smokesignal.emit('progress_rate_signal',id_485, PROGRESS_TYPE_FIRM, 20 + int(success_count * 70 / packet_num))
 
                 if self.packet_size == 128:
                     xmodem = XMODEM(getc, putc, mode='xmodem')
@@ -317,8 +373,8 @@ class Worker485(WorkerBase):
                     if not ret or msg_detail.response != 0x23 or msg_detail.crc != 0xcd:
                         ret_desc = "未收到固件更新完成响应"
                     else:
-                        self.progress_rate_signal.emit(id_485, PROGRESS_TYPE_FIRM, 100)
-        self.progress_result_signal.emit(id_485, PROGRESS_TYPE_FIRM, ret_desc)
+                        smokesignal.emit('progress_rate_signal',id_485, PROGRESS_TYPE_FIRM, 100)
+        smokesignal.emit('progress_result_signal',id_485, PROGRESS_TYPE_FIRM, ret_desc)
 
     def __sbl_update_one(self, id_485, sbl_path):
         ret_desc = ""
@@ -332,7 +388,7 @@ class Worker485(WorkerBase):
         elif msg_detail.response != 0x01:
             ret_desc = "updateSbl命令响应错误 : %02X" % msg_detail.response
         else:
-            self.progress_rate_signal.emit(id_485, PROGRESS_TYPE_SBL, 10)
+            smokesignal.emit('progress_rate_signal',id_485, PROGRESS_TYPE_SBL, 10)
             # 2. 传输文件
             file = open(sbl_path, "rb")
             for i in range(packet_num):
@@ -349,9 +405,9 @@ class Worker485(WorkerBase):
                         ret_desc = "sbl升级包响应错误 : %02X" % msg_detail.response
                     else:
                         ret_desc = ""
-                        self.progress_rate_signal.emit(id_485, PROGRESS_TYPE_SBL, 10 + int((i + 1) * 90 / packet_num))
+                        smokesignal.emit('progress_rate_signal',id_485, PROGRESS_TYPE_SBL, 10 + int((i + 1) * 90 / packet_num))
                         break
                 if ret_desc != "":
                     break
             file.close()
-        self.progress_result_signal.emit(id_485, PROGRESS_TYPE_SBL, ret_desc)
+        smokesignal.emit('progress_result_signal',id_485, PROGRESS_TYPE_SBL, ret_desc)
